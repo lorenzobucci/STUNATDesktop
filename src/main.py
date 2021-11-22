@@ -2,11 +2,9 @@ import sys
 
 from PyQt5 import QtWidgets
 
-from src.view.STUNATView import Ui_MainWindow
+from src.view.STUNATView import STUNATView
 
 app = QtWidgets.QApplication(sys.argv)
-MainWindow = QtWidgets.QMainWindow()
-ui = Ui_MainWindow()
-ui.setupUi(MainWindow)
-MainWindow.show()
+mainWindow = STUNATView()
+mainWindow.show()
 sys.exit(app.exec_())
