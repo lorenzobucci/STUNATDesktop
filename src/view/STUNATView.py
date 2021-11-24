@@ -53,6 +53,7 @@ class STUNATView(QtWidgets.QMainWindow):
 
         self.natTypeLabel = QtWidgets.QLabel(self.resultsGroupBox)
         self.natTypeLabel.setObjectName("natTypeLabel")
+        self.natTypeLabel.setStyleSheet("font-weight:600;")
         self.resultsGroupBoxGridLayout.addWidget(self.natTypeLabel, 0, 0, 1, 1)
 
         self.extIPLabel = QtWidgets.QLabel(self.resultsGroupBox)
@@ -169,18 +170,18 @@ class STUNATView(QtWidgets.QMainWindow):
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
         self.extIPLabel.setText(
-            _translate("MainWindow", "<html><head/><body><p>Indirizzo IP <br> esterno:</p></body></html>"))
-        self.natTypeLabel.setText(_translate("MainWindow",
-                                             "<html><head/><body><p><span style=\" font-weight:600;\">Tipo di NAT:</span></p></body></html>"))
-        self.extPortLabel.setText(_translate("MainWindow", "Porta esterna:"))
-        self.homeDescriptionLabel.setText(_translate("MainWindow",
-                                                     "Scopri il tipo di NAT presente sulla tua rete. Clicca su Inizia test e attendi il risultato."))
-        self.startButton.setText(_translate("MainWindow", "Inizia test"))
-        self.stunServerGroupBox.setTitle(_translate("MainWindow", "Server STUN"))
-        self.serverHostnameLabel.setText(_translate("MainWindow", "Hostname o Indirizzo IP"))
-        self.serverPortLabel.setText(_translate("MainWindow", "<html><head/><body><p>Porta</p></body></html>"))
-        self.netParamsGroupBox.setTitle(_translate("MainWindow", "Parametri di rete"))
-        self.sourceInterfaceLabel.setText(_translate("MainWindow", "Interfaccia sorgente"))
-        self.localPortLabel.setText(_translate("MainWindow", "<html><head/><body><p>Porta locale</p></body></html>"))
-        self.showLogCheckBox.setText(_translate("MainWindow", "Visualizza log avanzato"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.optionsTab), _translate("MainWindow", "Opzioni"))
+            _translate("STUNATView", "Indirizzo IP\nesterno:"))
+        self.natTypeLabel.setText(_translate("STUNATView", "Tipo di NAT:"))
+        self.extPortLabel.setText(_translate("STUNATView", "Porta esterna:"))
+        self.homeDescriptionLabel.setText(_translate("STUNATView",
+                                                     "Scopri il tipo di NAT presente sulla tua rete."
+                                                     "Clicca su Inizia test e attendi il risultato."))
+        self.startButton.setText(_translate("STUNATView", "Inizia test"))
+        self.stunServerGroupBox.setTitle(_translate("STUNATView", "Server STUN"))
+        self.serverHostnameLabel.setText(_translate("STUNATView", "Hostname o Indirizzo IP"))
+        self.serverPortLabel.setText(_translate("STUNATView", "Porta"))
+        self.netParamsGroupBox.setTitle(_translate("STUNATView", "Parametri di rete"))
+        self.sourceInterfaceLabel.setText(_translate("STUNATView", "Interfaccia sorgente"))
+        self.localPortLabel.setText(_translate("STUNATView", "Porta locale"))
+        self.showLogCheckBox.setText(_translate("STUNATView", "Visualizza log avanzato"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.optionsTab), _translate("STUNATView", "Opzioni"))
