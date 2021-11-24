@@ -1,4 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import QRegExp
+from PyQt5.QtGui import QRegExpValidator
 
 
 class STUNATView(QtWidgets.QMainWindow):
@@ -95,6 +97,7 @@ class STUNATView(QtWidgets.QMainWindow):
         self.optionsTab = QtWidgets.QWidget()
         self.optionsTab.setObjectName("optionsTab")
         self.tabWidget.addTab(self.optionsTab, "")
+        portRegExp = QRegExp("([1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-3][0-9]|6553[0-5])")
 
         self.optionsTabVLayout = QtWidgets.QVBoxLayout(self.optionsTab)
         self.optionsTabVLayout.setObjectName("optionsTabVLayout")
@@ -112,8 +115,7 @@ class STUNATView(QtWidgets.QMainWindow):
         self.stunServerGroupBoxHLayout.addWidget(self.serverHostnameLabel)
 
         self.serverHostnameField = QtWidgets.QLineEdit(self.stunServerGroupBox)
-        self.serverHostnameField.setInputMask("")  # TODO
-        self.serverHostnameField.setText("stun.sipgate.net")
+        self.serverHostnameField.setText("stun.sipgate.net")  # FIXME
         self.serverHostnameField.setObjectName("serverHostnameField")
         self.stunServerGroupBoxHLayout.addWidget(self.serverHostnameField)
 
@@ -123,7 +125,7 @@ class STUNATView(QtWidgets.QMainWindow):
 
         self.serverPortField = QtWidgets.QLineEdit(self.stunServerGroupBox)
         self.serverPortField.setFixedWidth(50)
-        self.serverPortField.setInputMask("")  # TODO
+        self.serverPortField.setValidator(QRegExpValidator(portRegExp))
         self.serverPortField.setText("3478")
         self.serverPortField.setMaxLength(5)
         self.serverPortField.setObjectName("serverPortField")
@@ -152,8 +154,8 @@ class STUNATView(QtWidgets.QMainWindow):
 
         self.localPortField = QtWidgets.QLineEdit(self.netParamsGroupBox)
         self.localPortField.setFixedWidth(50)
-        self.localPortField.setInputMask("")  # TODO
-        self.localPortField.setText("65536")
+        self.localPortField.setValidator(QRegExpValidator(portRegExp))
+        self.localPortField.setText("65536")  # FIXME
         self.localPortField.setMaxLength(5)
         self.localPortField.setObjectName("localPortField")
         self.netParamsGroupBoxHLayout.addWidget(self.localPortField)
