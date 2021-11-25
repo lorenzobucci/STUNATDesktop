@@ -10,14 +10,13 @@ class STUNATView(QtWidgets.QMainWindow):
         self.setObjectName("STUNATView")
         self.setWindowTitle("STUNAT Desktop")
 
-        self.resize(460, 280)
-        self.setFixedSize(QtCore.QSize(460, 280))
+        self.setFixedSize(QtCore.QSize(480, 300))
 
         self.centralWidget = QtWidgets.QWidget(self)
         self.centralWidget.setObjectName("centralWidget")
 
         self.tabWidget = QtWidgets.QTabWidget(self.centralWidget)
-        self.tabWidget.setGeometry(QtCore.QRect(10, 10, 442, 262))
+        self.tabWidget.setGeometry(QtCore.QRect(10, 10, 462, 282))
         self.tabWidget.setObjectName("tabWidget")
 
         self.homeTab = QtWidgets.QWidget()
@@ -81,8 +80,8 @@ class STUNATView(QtWidgets.QMainWindow):
         self.natRepresentation = QtWidgets.QLabel(self.homeTab)
         self.natRepresentation.setSizePolicy(
             QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred))
-        self.natRepresentation.setFixedWidth(205)
-        pixmap = QtGui.QPixmap("res/natRepresentations/SymmetricFirewall.png")
+        self.natRepresentation.setFixedWidth(225)
+        pixmap = QtGui.QPixmap("res/natRepresentations/FullConeNAT.png")
         self.natRepresentation.setPixmap(pixmap.scaledToWidth(self.natRepresentation.width()))
         self.natRepresentation.setObjectName("natRepresentation")
         self.homeTabGridLayout.addWidget(self.natRepresentation, 2, 1, 1, 1)
