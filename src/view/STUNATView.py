@@ -1,6 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QRegExp
-from PyQt5.QtGui import QRegExpValidator
+from PyQt5.QtGui import QRegExpValidator, QIntValidator
 
 
 class STUNATView(QtWidgets.QMainWindow):
@@ -31,7 +31,7 @@ class STUNATView(QtWidgets.QMainWindow):
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         self.homeTitleLabel.setSizePolicy(sizePolicy)
         self.homeTitleLabel.setText("STUNAT")
-        self.homeTitleLabel.setStyleSheet("font-size:14pt; font-weight:600;")
+        self.homeTitleLabel.setStyleSheet("font-size:18pt; font-weight:600;")
         self.homeTitleLabel.setAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop)
         self.homeTitleLabel.setObjectName("homeTitleLabel")
         self.homeTabGridLayout.addWidget(self.homeTitleLabel, 0, 0, 1, 2)
@@ -82,9 +82,8 @@ class STUNATView(QtWidgets.QMainWindow):
         self.natRepresentation.setSizePolicy(
             QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred))
         self.natRepresentation.setFixedWidth(205)
-        pixmap = QtGui.QPixmap("res/UnknownNAT.png")
-        self.natRepresentation.setPixmap(
-            pixmap.scaled(self.natRepresentation.width(), pixmap.height(), QtCore.Qt.KeepAspectRatio))
+        pixmap = QtGui.QPixmap("res/natRepresentations/SymmetricFirewall.png")
+        self.natRepresentation.setPixmap(pixmap.scaledToWidth(self.natRepresentation.width()))
         self.natRepresentation.setObjectName("natRepresentation")
         self.homeTabGridLayout.addWidget(self.natRepresentation, 2, 1, 1, 1)
 
