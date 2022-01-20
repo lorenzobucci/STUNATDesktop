@@ -1,6 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QRegExp
-from PyQt5.QtGui import QRegExpValidator, QIntValidator
+from PyQt5.QtGui import QRegExpValidator
 
 
 class STUNATView(QtWidgets.QMainWindow):
@@ -81,8 +81,14 @@ class STUNATView(QtWidgets.QMainWindow):
         self.natRepresentation.setSizePolicy(
             QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred))
         self.natRepresentation.setFixedWidth(225)
-        pixmap = QtGui.QPixmap("res/natRepresentations/FullConeNAT.png")
-        self.natRepresentation.setPixmap(pixmap.scaledToWidth(self.natRepresentation.width()))
+
+        pixmap = QtGui.QPixmap("res/natRepresentations/UnknownNAT.png")
+        movie = QtGui.QMovie("res/natRepresentations/UnknownNAT.png")
+        movieSize = pixmap.size()
+        movie.setScaledSize(movieSize.scaled(self.natRepresentation.width(), movieSize.height(), QtCore.Qt.KeepAspectRatio))
+        movie.start()
+        self.natRepresentation.setMovie(movie)
+
         self.natRepresentation.setObjectName("natRepresentation")
         self.homeTabGridLayout.addWidget(self.natRepresentation, 2, 1, 1, 1)
 
