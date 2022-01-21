@@ -114,7 +114,7 @@ class STUNATView(QtWidgets.QMainWindow):
         self.stunServerGroupBoxHLayout.addWidget(self.serverHostnameLabel)
 
         self.serverHostnameField = QtWidgets.QLineEdit(self.stunServerGroupBox)
-        self.serverHostnameField.setText("stun.sipgate.net")  # FIXME
+        self.serverHostnameField.setText("stun.sipgate.net")
         self.serverHostnameField.setObjectName("serverHostnameField")
         self.stunServerGroupBoxHLayout.addWidget(self.serverHostnameField)
 
@@ -137,15 +137,15 @@ class STUNATView(QtWidgets.QMainWindow):
         self.netParamsGroupBoxHLayout = QtWidgets.QHBoxLayout(self.netParamsGroupBox)
         self.netParamsGroupBoxHLayout.setObjectName("netParamsGroupBoxHLayout")
 
-        self.sourceInterfaceLabel = QtWidgets.QLabel(self.netParamsGroupBox)
-        self.sourceInterfaceLabel.setObjectName("sourceInterfaceLabel")
-        self.netParamsGroupBoxHLayout.addWidget(self.sourceInterfaceLabel)
+        self.sourceIPLabel = QtWidgets.QLabel(self.netParamsGroupBox)
+        self.sourceIPLabel.setObjectName("sourceIPLabel")
+        self.netParamsGroupBoxHLayout.addWidget(self.sourceIPLabel)
 
-        self.sourceInterfaceComboBox = QtWidgets.QComboBox(self.netParamsGroupBox)
+        self.sourceIPComboBox = QtWidgets.QComboBox(self.netParamsGroupBox)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
-        self.sourceInterfaceComboBox.setSizePolicy(sizePolicy)
-        self.sourceInterfaceComboBox.setObjectName("sourceInterfaceComboBox")
-        self.netParamsGroupBoxHLayout.addWidget(self.sourceInterfaceComboBox)
+        self.sourceIPComboBox.setSizePolicy(sizePolicy)
+        self.sourceIPComboBox.setObjectName("sourceIPComboBox")
+        self.netParamsGroupBoxHLayout.addWidget(self.sourceIPComboBox)
 
         self.localPortLabel = QtWidgets.QLabel(self.netParamsGroupBox)
         self.localPortLabel.setObjectName("localPortLabel")
@@ -154,7 +154,7 @@ class STUNATView(QtWidgets.QMainWindow):
         self.localPortField = QtWidgets.QLineEdit(self.netParamsGroupBox)
         self.localPortField.setFixedWidth(50)
         self.localPortField.setValidator(QRegExpValidator(portRegExp))
-        self.localPortField.setText("65536")  # FIXME
+        self.localPortField.setText("54320")
         self.localPortField.setMaxLength(5)
         self.localPortField.setObjectName("localPortField")
         self.netParamsGroupBoxHLayout.addWidget(self.localPortField)
@@ -180,8 +180,7 @@ class STUNATView(QtWidgets.QMainWindow):
 
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        self.extIPLabel.setText(
-            _translate("STUNATView", "Indirizzo IP\nesterno:"))
+        self.extIPLabel.setText(_translate("STUNATView", "Indirizzo IP\nesterno:"))
         self.natTypeLabel.setText(_translate("STUNATView", "Tipo di NAT:"))
         self.extPortLabel.setText(_translate("STUNATView", "Porta esterna:"))
         self.homeDescriptionLabel.setText(_translate("STUNATView",
@@ -192,7 +191,7 @@ class STUNATView(QtWidgets.QMainWindow):
         self.serverHostnameLabel.setText(_translate("STUNATView", "Hostname o Indirizzo IP"))
         self.serverPortLabel.setText(_translate("STUNATView", "Porta"))
         self.netParamsGroupBox.setTitle(_translate("STUNATView", "Parametri di rete"))
-        self.sourceInterfaceLabel.setText(_translate("STUNATView", "Interfaccia sorgente"))
+        self.sourceIPLabel.setText(_translate("STUNATView", "Indirizzo IP sorgente"))
         self.localPortLabel.setText(_translate("STUNATView", "Porta locale"))
         self.showLogCheckBox.setText(_translate("STUNATView", "Visualizza log avanzato"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.optionsTab), _translate("STUNATView", "Opzioni"))
