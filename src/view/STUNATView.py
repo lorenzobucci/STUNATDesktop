@@ -82,12 +82,7 @@ class STUNATView(QtWidgets.QMainWindow):
             QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred))
         self.natRepresentation.setFixedWidth(225)
 
-        pixmap = QtGui.QPixmap("res/natRepresentations/UnknownNAT.png")
-        movie = QtGui.QMovie("res/natRepresentations/UnknownNAT.png")
-        movieSize = pixmap.size()
-        movie.setScaledSize(movieSize.scaled(self.natRepresentation.width(), movieSize.height(), QtCore.Qt.KeepAspectRatio))
-        movie.start()
-        self.natRepresentation.setMovie(movie)
+        self.setNatRepresentation("UnknownNAT.png")
 
         self.natRepresentation.setObjectName("natRepresentation")
         self.homeTabGridLayout.addWidget(self.natRepresentation, 2, 1, 1, 1)
@@ -172,6 +167,16 @@ class STUNATView(QtWidgets.QMainWindow):
 
         self.retranslateUi()
         self.tabWidget.setCurrentIndex(0)
+
+    def setNatRepresentation(self, imageName):
+        imagePath = "res/natRepresentations/" + imageName
+        pixmap = QtGui.QPixmap(imagePath)
+        movie = QtGui.QMovie(imagePath)
+        movieSize = pixmap.size()
+        movie.setScaledSize(
+            movieSize.scaled(self.natRepresentation.width(), movieSize.height(), QtCore.Qt.KeepAspectRatio))
+        movie.start()
+        self.natRepresentation.setMovie(movie)
 
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
