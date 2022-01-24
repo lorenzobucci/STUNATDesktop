@@ -1,6 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import QRegExp
+from PyQt5.QtCore import Qt, QRegExp
 from PyQt5.QtGui import QRegExpValidator
+from PyQt5.QtGui import QCursor
 
 
 class STUNATView(QtWidgets.QMainWindow):
@@ -174,6 +175,9 @@ class STUNATView(QtWidgets.QMainWindow):
             movieSize.scaled(self.natRepresentation.width(), movieSize.height(), QtCore.Qt.KeepAspectRatio))
         movie.start()
         self.natRepresentation.setMovie(movie)
+
+    def setBusyCursor(self):
+        self.setCursor(QCursor(Qt.WaitCursor))
 
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
