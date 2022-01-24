@@ -2,7 +2,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt, QRegExp
 from PyQt5.QtGui import QCursor, QFont
 from PyQt5.QtGui import QRegExpValidator
-from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtWidgets import QMessageBox, QHBoxLayout, QSpacerItem, QSizePolicy
 
 
 class STUNATView(QtWidgets.QMainWindow):
@@ -30,9 +30,11 @@ class STUNATView(QtWidgets.QMainWindow):
         self.tabWidget.addTab(self.optionsTab, "")
 
         self.setCentralWidget(self.centralWidget)
-
-        self.retranslateUi()
         self.tabWidget.setCurrentIndex(0)
+
+        self.translator = QtCore.QTranslator(self)
+        self.optionsTab.languageComboBox.currentIndexChanged.connect(self._languageChangedHandler)
+        self.retranslateUi()
 
     def setBusyCursor(self):
         self.setCursor(QCursor(Qt.WaitCursor))
@@ -44,11 +46,21 @@ class STUNATView(QtWidgets.QMainWindow):
         errorBox.setWindowTitle("Error")
         errorBox.exec_()
 
+    def _languageChangedHandler(self, index):
+        data = self.optionsTab.languageComboBox.itemData(index)
+        if data:
+            self.translator.load("view/" + data)
+            QtWidgets.QApplication.instance().installTranslator(self.translator)
+        else:
+            QtWidgets.QApplication.instance().removeTranslator(self.translator)
+        self.retranslateUi()
+
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.optionsTab), _translate("STUNATView", "Opzioni"))
         self.homeTab.retranslateUi()
         self.optionsTab.retranslateUi()
+
 
 class HomeTab(QtWidgets.QWidget):
     def __init__(self):
@@ -221,6 +233,30 @@ class OptionsTab(QtWidgets.QWidget):
         self.localPortField.setObjectName("localPortField")
         self.netParamsGroupBoxHLayout.addWidget(self.localPortField)
 
+        self.languageHLayout = QHBoxLayout()
+        self.languageHLayout.setObjectName(u"languageHLayout")
+        self.optionsTabVLayout.addLayout(self.languageHLayout)
+
+        self.languageLabel = QtWidgets.QLabel(self)
+        self.languageLabel.setObjectName("languageLabel")
+        self.optionsTabVLayout.addWidget(self.languageLabel)
+        self.languageHLayout.addWidget(self.languageLabel)
+
+        self.languageComboBox = QtWidgets.QComboBox(self)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        self.languageComboBox.setSizePolicy(sizePolicy)
+        self.languageComboBox.setObjectName("languageComboBox")
+
+        langOptions = ([('Italiano', ''), ('English', 'it-eng')])
+        for i, (text, lang) in enumerate(langOptions):
+            self.languageComboBox.addItem(text)
+            self.languageComboBox.setItemData(i, lang)
+
+        self.languageHLayout.addWidget(self.languageComboBox)
+
+        self.horizontalSpacer = QSpacerItem(100, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.languageHLayout.addItem(self.horizontalSpacer)
+
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
         self.stunServerGroupBox.setTitle(_translate("STUNATView", "Server STUN"))
@@ -229,3 +265,4 @@ class OptionsTab(QtWidgets.QWidget):
         self.netParamsGroupBox.setTitle(_translate("STUNATView", "Parametri di rete"))
         self.sourceIPLabel.setText(_translate("STUNATView", "Indirizzo IP sorgente"))
         self.localPortLabel.setText(_translate("STUNATView", "Porta locale"))
+        self.languageLabel.setText(_translate("STUNATView", "Lingua"))
