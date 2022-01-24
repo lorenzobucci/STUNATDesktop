@@ -2,6 +2,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt, QRegExp
 from PyQt5.QtGui import QCursor
 from PyQt5.QtGui import QRegExpValidator
+from PyQt5.QtWidgets import QMessageBox
 
 
 class STUNATView(QtWidgets.QMainWindow):
@@ -182,6 +183,13 @@ class STUNATView(QtWidgets.QMainWindow):
         self.resultsGroupBox.setHidden(False)
         self.homeTabGridLayout.removeWidget(self.natRepresentation)
         self.homeTabGridLayout.addWidget(self.natRepresentation, 2, 0, 1, 1)
+
+    def showErrorMessage(self, message):
+        errorBox = QMessageBox()
+        errorBox.setIcon(QMessageBox.Critical)
+        errorBox.setText(message)
+        errorBox.setWindowTitle("Error")
+        errorBox.exec_()
 
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate

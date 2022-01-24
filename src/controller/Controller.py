@@ -37,17 +37,33 @@ class Controller:
             self.view.natTypeResultLabel.setText(self.model.testResults["natType"]),
             self.view.extIPResultLabel.setText(self.model.testResults["extIP"]),
             self.view.extPortResultLabel.setText(str(self.model.testResults["extPort"])),
-            self.view.startButton.setEnabled(True),
-            self.view.unsetCursor(),
             self.view.showResultsGroupBox(),
-            self.view.homeDescriptionLabel.setHidden(False)
+            self._restoreWindowStateAfterTest()
+
         })
+        worker.stunException.connect(lambda: {
+            self.view.setNatRepresentation("UnknownNAT.png"),
+            self._restoreWindowStateAfterTest(),
+            self.view.showErrorMessage(worker.exceptionMessage)
+        })
+
+    def _restoreWindowStateAfterTest(self):
+        self.view.startButton.setEnabled(True)
+        self.view.unsetCursor()
+        self.view.homeDescriptionLabel.setHidden(False)
 
 
 class STUNWorker(QObject):
     finished = pyqtSignal()
+    stunException = pyqtSignal()
+
+    exceptionMessage = ""
 
     def startTest(self, view, model):
-        model.startTest(view.serverHostnameField.text(), view.serverPortField.text(),
-                        view.sourceIPComboBox.currentText(), view.localPortField.text())
-        self.finished.emit()
+        try:
+            model.startTest(view.serverHostnameField.text(), view.serverPortField.text(),
+                            view.sourceIPComboBox.currentText(), view.localPortField.text())
+            self.finished.emit()
+        except Exception as e:
+            self.exceptionMessage = str(e)
+            self.stunException.emit()
