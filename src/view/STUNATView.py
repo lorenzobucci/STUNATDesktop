@@ -171,8 +171,8 @@ class STUNATView(QtWidgets.QMainWindow):
         movieSize = pixmap.size()
         movie.setScaledSize(
             movieSize.scaled(self.natRepresentation.width(), movieSize.height(), QtCore.Qt.KeepAspectRatio))
-        movie.start()
         self.natRepresentation.setMovie(movie)
+        movie.start()
 
     def setBusyCursor(self):
         self.setCursor(QCursor(Qt.WaitCursor))
