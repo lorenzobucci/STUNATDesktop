@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt, QRegExp
-from PyQt5.QtGui import QRegExpValidator
 from PyQt5.QtGui import QCursor
+from PyQt5.QtGui import QRegExpValidator
 
 
 class STUNATView(QtWidgets.QMainWindow):
@@ -155,10 +155,6 @@ class STUNATView(QtWidgets.QMainWindow):
         self.localPortField.setObjectName("localPortField")
         self.netParamsGroupBoxHLayout.addWidget(self.localPortField)
 
-        self.showLogCheckBox = QtWidgets.QCheckBox(self.optionsTab)
-        self.showLogCheckBox.setObjectName("showLogCheckBox")
-        self.optionsTabVLayout.addWidget(self.showLogCheckBox)
-
         self.setCentralWidget(self.centralWidget)
 
         self.retranslateUi()
@@ -202,5 +198,4 @@ class STUNATView(QtWidgets.QMainWindow):
         self.netParamsGroupBox.setTitle(_translate("STUNATView", "Parametri di rete"))
         self.sourceIPLabel.setText(_translate("STUNATView", "Indirizzo IP sorgente"))
         self.localPortLabel.setText(_translate("STUNATView", "Porta locale"))
-        self.showLogCheckBox.setText(_translate("STUNATView", "Visualizza log avanzato"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.optionsTab), _translate("STUNATView", "Opzioni"))
