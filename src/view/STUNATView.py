@@ -48,7 +48,7 @@ class STUNATView(QtWidgets.QMainWindow):
         self.resultsGroupBox.setSizePolicy(
             QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed))
         self.resultsGroupBox.setFixedWidth(207)
-        self.homeTabGridLayout.addWidget(self.resultsGroupBox, 2, 0, 1, 1)
+        self.homeTabGridLayout.addWidget(self.resultsGroupBox, 2, 1, 1, 1)
 
         self.resultsGroupBoxGridLayout = QtWidgets.QGridLayout(self.resultsGroupBox)
         self.resultsGroupBoxGridLayout.setObjectName("resultsGroupBoxGridLayout")
@@ -82,9 +82,9 @@ class STUNATView(QtWidgets.QMainWindow):
         self.natRepresentation.setSizePolicy(
             QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred))
         self.natRepresentation.setFixedWidth(225)
-
+        self.natRepresentation.setFixedHeight(100)
         self.natRepresentation.setObjectName("natRepresentation")
-        self.homeTabGridLayout.addWidget(self.natRepresentation, 2, 1, 1, 1)
+        self.homeTabGridLayout.addWidget(self.natRepresentation, 2, 0, 1, 1)
 
         self.startButton = QtWidgets.QPushButton(self.homeTab)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
@@ -177,13 +177,23 @@ class STUNATView(QtWidgets.QMainWindow):
     def setBusyCursor(self):
         self.setCursor(QCursor(Qt.WaitCursor))
 
+    def hideResultsGroupBox(self):
+        self.resultsGroupBox.hide()
+        self.homeTabGridLayout.removeWidget(self.natRepresentation)
+        self.homeTabGridLayout.addWidget(self.natRepresentation, 2, 0, 1, 2, QtCore.Qt.AlignHCenter)
+
+    def showResultsGroupBox(self):
+        self.resultsGroupBox.setHidden(False)
+        self.homeTabGridLayout.removeWidget(self.natRepresentation)
+        self.homeTabGridLayout.addWidget(self.natRepresentation, 2, 0, 1, 1)
+
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
         self.extIPLabel.setText(_translate("STUNATView", "Indirizzo IP\nesterno:"))
         self.natTypeLabel.setText(_translate("STUNATView", "Tipo di NAT:"))
         self.extPortLabel.setText(_translate("STUNATView", "Porta esterna:"))
         self.homeDescriptionLabel.setText(_translate("STUNATView",
-                                                     "Scopri il tipo di NAT presente sulla tua rete."
+                                                     "Scopri il tipo di NAT presente sulla tua rete.\n"
                                                      "Clicca su Inizia test e attendi il risultato."))
         self.startButton.setText(_translate("STUNATView", "Inizia test"))
         self.stunServerGroupBox.setTitle(_translate("STUNATView", "Server STUN"))

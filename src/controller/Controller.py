@@ -15,18 +15,20 @@ class Controller:
 
         self.view.startButton.clicked.connect(self._startButtonHandler)
 
-        self.view.sourceIPComboBox.insertItems(0, self.model.localIPList)
-        self.view.sourceIPComboBox.setCurrentIndex(0)
-
         self.view.setNatRepresentation("UnknownNAT.png")
+        self.view.hideResultsGroupBox()
+
         self.view.serverHostnameField.setText("stun.sipgate.net")
         self.view.serverPortField.setText("3478")
+        self.view.sourceIPComboBox.insertItems(0, self.model.localIPList)
+        self.view.sourceIPComboBox.setCurrentIndex(0)
         self.view.localPortField.setText(str(random.randint(10000, 65000)))
 
     def _startButtonHandler(self):
         self.view.startButton.setDisabled(True)
         self.view.setBusyCursor()
         self.view.setNatRepresentation("Loading.gif")
+        self.view.homeDescriptionLabel.hide()
 
         worker = STUNWorker()
         threading.Thread(target=worker.startTest, args=(self.view, self.model)).start()
@@ -36,7 +38,9 @@ class Controller:
             self.view.extIPResultLabel.setText(self.model.testResults["extIP"]),
             self.view.extPortResultLabel.setText(str(self.model.testResults["extPort"])),
             self.view.startButton.setEnabled(True),
-            self.view.unsetCursor()
+            self.view.unsetCursor(),
+            self.view.showResultsGroupBox(),
+            self.view.homeDescriptionLabel.setHidden(False)
         })
 
 
