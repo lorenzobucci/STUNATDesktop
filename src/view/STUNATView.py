@@ -21,14 +21,43 @@ class STUNATView(QtWidgets.QMainWindow):
         self.tabWidget.setGeometry(QtCore.QRect(10, 10, 462, 282))
         self.tabWidget.setObjectName("tabWidget")
 
-        self.homeTab = QtWidgets.QWidget()
+        self.homeTab = HomeTab()
         self.homeTab.setObjectName("homeTab")
         self.tabWidget.addTab(self.homeTab, "STUNAT")
 
-        self.homeTabGridLayout = QtWidgets.QGridLayout(self.homeTab)
+        self.optionsTab = OptionsTab()
+        self.optionsTab.setObjectName("optionsTab")
+        self.tabWidget.addTab(self.optionsTab, "")
+
+        self.setCentralWidget(self.centralWidget)
+
+        self.retranslateUi()
+        self.tabWidget.setCurrentIndex(0)
+
+    def setBusyCursor(self):
+        self.setCursor(QCursor(Qt.WaitCursor))
+
+    def showErrorMessage(self, message):
+        errorBox = QMessageBox()
+        errorBox.setIcon(QMessageBox.Critical)
+        errorBox.setText(message)
+        errorBox.setWindowTitle("Error")
+        errorBox.exec_()
+
+    def retranslateUi(self):
+        _translate = QtCore.QCoreApplication.translate
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.optionsTab), _translate("STUNATView", "Opzioni"))
+        self.homeTab.retranslateUi()
+        self.optionsTab.retranslateUi()
+
+class HomeTab(QtWidgets.QWidget):
+    def __init__(self):
+        super().__init__()
+
+        self.homeTabGridLayout = QtWidgets.QGridLayout(self)
         self.homeTabGridLayout.setObjectName("homeTabGridLayout")
 
-        self.homeTitleLabel = QtWidgets.QLabel(self.homeTab)
+        self.homeTitleLabel = QtWidgets.QLabel(self)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         self.homeTitleLabel.setSizePolicy(sizePolicy)
         self.homeTitleLabel.setText("STUNAT")
@@ -40,7 +69,7 @@ class STUNATView(QtWidgets.QMainWindow):
         self.homeTitleLabel.setObjectName("homeTitleLabel")
         self.homeTabGridLayout.addWidget(self.homeTitleLabel, 0, 0, 1, 2)
 
-        self.homeDescriptionLabel = QtWidgets.QLabel(self.homeTab)
+        self.homeDescriptionLabel = QtWidgets.QLabel(self)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         self.homeDescriptionLabel.setSizePolicy(sizePolicy)
         self.homeDescriptionLabel.setStyleSheet("font-size:10pt")
@@ -48,7 +77,7 @@ class STUNATView(QtWidgets.QMainWindow):
         self.homeDescriptionLabel.setObjectName("homeDescriptionLabel")
         self.homeTabGridLayout.addWidget(self.homeDescriptionLabel, 1, 0, 1, 2)
 
-        self.resultsGroupBox = QtWidgets.QGroupBox(self.homeTab)
+        self.resultsGroupBox = QtWidgets.QGroupBox(self)
         self.resultsGroupBox.setObjectName("resultsGroupBox")
         self.resultsGroupBox.setSizePolicy(
             QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed))
@@ -83,7 +112,7 @@ class STUNATView(QtWidgets.QMainWindow):
         self.extPortResultLabel.setObjectName("extPortResultLabel")
         self.resultsGroupBoxGridLayout.addWidget(self.extPortResultLabel, 2, 1, 1, 1)
 
-        self.natRepresentation = QtWidgets.QLabel(self.homeTab)
+        self.natRepresentation = QtWidgets.QLabel(self)
         self.natRepresentation.setSizePolicy(
             QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred))
         self.natRepresentation.setFixedWidth(225)
@@ -91,21 +120,53 @@ class STUNATView(QtWidgets.QMainWindow):
         self.natRepresentation.setObjectName("natRepresentation")
         self.homeTabGridLayout.addWidget(self.natRepresentation, 2, 0, 1, 1)
 
-        self.startButton = QtWidgets.QPushButton(self.homeTab)
+        self.startButton = QtWidgets.QPushButton(self)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         self.startButton.setSizePolicy(sizePolicy)
         self.startButton.setObjectName("startButton")
         self.homeTabGridLayout.addWidget(self.startButton, 3, 0, 1, 2, QtCore.Qt.AlignHCenter)
 
-        self.optionsTab = QtWidgets.QWidget()
-        self.optionsTab.setObjectName("optionsTab")
-        self.tabWidget.addTab(self.optionsTab, "")
+    def setNatRepresentation(self, imageName):
+        imagePath = "res/natRepresentations/" + imageName
+        pixmap = QtGui.QPixmap(imagePath)
+        movie = QtGui.QMovie(imagePath)
+        movieSize = pixmap.size()
+        movie.setScaledSize(
+            movieSize.scaled(self.natRepresentation.width(), movieSize.height(), QtCore.Qt.KeepAspectRatio))
+        self.natRepresentation.setMovie(movie)
+        movie.start()
+
+    def hideResultsGroupBox(self):
+        self.resultsGroupBox.hide()
+        self.homeTabGridLayout.removeWidget(self.natRepresentation)
+        self.homeTabGridLayout.addWidget(self.natRepresentation, 2, 0, 1, 2, QtCore.Qt.AlignHCenter)
+
+    def showResultsGroupBox(self):
+        self.resultsGroupBox.setHidden(False)
+        self.homeTabGridLayout.removeWidget(self.natRepresentation)
+        self.homeTabGridLayout.addWidget(self.natRepresentation, 2, 0, 1, 1)
+
+    def retranslateUi(self):
+        _translate = QtCore.QCoreApplication.translate
+        self.extIPLabel.setText(_translate("STUNATView", "Indirizzo IP\nesterno:"))
+        self.natTypeLabel.setText(_translate("STUNATView", "Tipo di NAT:"))
+        self.extPortLabel.setText(_translate("STUNATView", "Porta esterna:"))
+        self.homeDescriptionLabel.setText(_translate("STUNATView",
+                                                     "Scopri il tipo di NAT presente sulla tua rete.\n"
+                                                     "Clicca su Inizia test e attendi il risultato."))
+        self.startButton.setText(_translate("STUNATView", "Inizia test"))
+
+
+class OptionsTab(QtWidgets.QWidget):
+    def __init__(self):
+        super().__init__()
+
         portRegExp = QRegExp("([1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-3][0-9]|6553[0-5])")
 
-        self.optionsTabVLayout = QtWidgets.QVBoxLayout(self.optionsTab)
+        self.optionsTabVLayout = QtWidgets.QVBoxLayout(self)
         self.optionsTabVLayout.setObjectName("optionsTabVLayout")
 
-        self.stunServerGroupBox = QtWidgets.QGroupBox(self.optionsTab)
+        self.stunServerGroupBox = QtWidgets.QGroupBox(self)
         self.stunServerGroupBox.setChecked(False)
         self.stunServerGroupBox.setObjectName("stunServerGroupBox")
         self.optionsTabVLayout.addWidget(self.stunServerGroupBox)
@@ -132,7 +193,7 @@ class STUNATView(QtWidgets.QMainWindow):
         self.serverPortField.setObjectName("serverPortField")
         self.stunServerGroupBoxHLayout.addWidget(self.serverPortField)
 
-        self.netParamsGroupBox = QtWidgets.QGroupBox(self.optionsTab)
+        self.netParamsGroupBox = QtWidgets.QGroupBox(self)
         self.netParamsGroupBox.setObjectName("netParamsGroupBox")
         self.optionsTabVLayout.addWidget(self.netParamsGroupBox)
 
@@ -160,54 +221,11 @@ class STUNATView(QtWidgets.QMainWindow):
         self.localPortField.setObjectName("localPortField")
         self.netParamsGroupBoxHLayout.addWidget(self.localPortField)
 
-        self.setCentralWidget(self.centralWidget)
-
-        self.retranslateUi()
-        self.tabWidget.setCurrentIndex(0)
-
-    def setNatRepresentation(self, imageName):
-        imagePath = "res/natRepresentations/" + imageName
-        pixmap = QtGui.QPixmap(imagePath)
-        movie = QtGui.QMovie(imagePath)
-        movieSize = pixmap.size()
-        movie.setScaledSize(
-            movieSize.scaled(self.natRepresentation.width(), movieSize.height(), QtCore.Qt.KeepAspectRatio))
-        self.natRepresentation.setMovie(movie)
-        movie.start()
-
-    def setBusyCursor(self):
-        self.setCursor(QCursor(Qt.WaitCursor))
-
-    def hideResultsGroupBox(self):
-        self.resultsGroupBox.hide()
-        self.homeTabGridLayout.removeWidget(self.natRepresentation)
-        self.homeTabGridLayout.addWidget(self.natRepresentation, 2, 0, 1, 2, QtCore.Qt.AlignHCenter)
-
-    def showResultsGroupBox(self):
-        self.resultsGroupBox.setHidden(False)
-        self.homeTabGridLayout.removeWidget(self.natRepresentation)
-        self.homeTabGridLayout.addWidget(self.natRepresentation, 2, 0, 1, 1)
-
-    def showErrorMessage(self, message):
-        errorBox = QMessageBox()
-        errorBox.setIcon(QMessageBox.Critical)
-        errorBox.setText(message)
-        errorBox.setWindowTitle("Error")
-        errorBox.exec_()
-
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        self.extIPLabel.setText(_translate("STUNATView", "Indirizzo IP\nesterno:"))
-        self.natTypeLabel.setText(_translate("STUNATView", "Tipo di NAT:"))
-        self.extPortLabel.setText(_translate("STUNATView", "Porta esterna:"))
-        self.homeDescriptionLabel.setText(_translate("STUNATView",
-                                                     "Scopri il tipo di NAT presente sulla tua rete.\n"
-                                                     "Clicca su Inizia test e attendi il risultato."))
-        self.startButton.setText(_translate("STUNATView", "Inizia test"))
         self.stunServerGroupBox.setTitle(_translate("STUNATView", "Server STUN"))
         self.serverHostnameLabel.setText(_translate("STUNATView", "Hostname o Indirizzo IP"))
         self.serverPortLabel.setText(_translate("STUNATView", "Porta"))
         self.netParamsGroupBox.setTitle(_translate("STUNATView", "Parametri di rete"))
         self.sourceIPLabel.setText(_translate("STUNATView", "Indirizzo IP sorgente"))
         self.localPortLabel.setText(_translate("STUNATView", "Porta locale"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.optionsTab), _translate("STUNATView", "Opzioni"))

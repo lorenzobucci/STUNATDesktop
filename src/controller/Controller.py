@@ -13,38 +13,38 @@ class Controller:
         self.view = stuNatView
         self.model = model
 
-        self.view.startButton.clicked.connect(self._startButtonHandler)
+        self.view.homeTab.startButton.clicked.connect(self._startButtonHandler)
 
-        self.view.setNatRepresentation("UnknownNAT.png")
-        self.view.hideResultsGroupBox()
+        self.view.homeTab.setNatRepresentation("UnknownNAT.png")
+        self.view.homeTab.hideResultsGroupBox()
 
-        self.view.serverHostnameField.setText("stun.sipgate.net")
-        self.view.serverPortField.setText("3478")
-        self.view.sourceIPComboBox.insertItems(0, self.model.localIPList)
-        self.view.sourceIPComboBox.setCurrentIndex(0)
-        self.view.localPortField.setText(str(random.randint(10000, 65000)))
+        self.view.optionsTab.serverHostnameField.setText("stun.sipgate.net")
+        self.view.optionsTab.serverPortField.setText("3478")
+        self.view.optionsTab.sourceIPComboBox.insertItems(0, self.model.localIPList)
+        self.view.optionsTab.sourceIPComboBox.setCurrentIndex(0)
+        self.view.optionsTab.localPortField.setText(str(random.randint(10000, 65000)))
 
     def _startButtonHandler(self):
-        self.view.startButton.setDisabled(True)
+        self.view.homeTab.startButton.setDisabled(True)
         self.view.setBusyCursor()
-        self.view.setNatRepresentation("Loading.gif")
-        self.view.homeDescriptionLabel.hide()
+        self.view.homeTab.setNatRepresentation("Loading.gif")
+        self.view.homeTab.homeDescriptionLabel.hide()
 
         worker = STUNWorker()
         threading.Thread(target=worker.startTest, args=(self.view, self.model)).start()
         worker.finished.connect(lambda: {
-            self.view.setNatRepresentation(self.model.testResults["natRepresentationImage"]),
-            self.view.natTypeResultLabel.setText(self.model.testResults["natType"]),
-            self.view.extIPResultLabel.setText(self.model.testResults["extIP"]),
-            self.view.extPortResultLabel.setText(str(self.model.testResults["extPort"])),
-            self.view.showResultsGroupBox(),
-            self.view.startButton.setEnabled(True),
+            self.view.homeTab.setNatRepresentation(self.model.testResults["natRepresentationImage"]),
+            self.view.homeTab.natTypeResultLabel.setText(self.model.testResults["natType"]),
+            self.view.homeTab.extIPResultLabel.setText(self.model.testResults["extIP"]),
+            self.view.homeTab.extPortResultLabel.setText(str(self.model.testResults["extPort"])),
+            self.view.homeTab.showResultsGroupBox(),
+            self.view.homeTab.startButton.setEnabled(True),
             self.view.unsetCursor()
 
         })
         worker.stunException.connect(lambda: {
-            self.view.setNatRepresentation("UnknownNAT.png"),
-            self.view.startButton.setEnabled(True),
+            self.view.homeTab.setNatRepresentation("UnknownNAT.png"),
+            self.view.homeTab.startButton.setEnabled(True),
             self.view.unsetCursor(),
             self.view.showErrorMessage(worker.exceptionMessage)
         })
@@ -58,8 +58,8 @@ class STUNWorker(QObject):
 
     def startTest(self, view, model):
         try:
-            model.startTest(view.serverHostnameField.text(), view.serverPortField.text(),
-                            view.sourceIPComboBox.currentText(), view.localPortField.text())
+            model.startTest(view.optionsTab.serverHostnameField.text(), view.optionsTab.serverPortField.text(),
+                            view.optionsTab.sourceIPComboBox.currentText(), view.optionsTab.localPortField.text())
             self.finished.emit()
         except Exception as e:
             self.exceptionMessage = str(e)
