@@ -18,6 +18,7 @@ class Controller:
         self.view.sourceIPComboBox.insertItems(0, self.model.localIPList)
         self.view.sourceIPComboBox.setCurrentIndex(0)
 
+        self.view.setNatRepresentation("UnknownNAT.png")
         self.view.serverHostnameField.setText("stun.sipgate.net")
         self.view.serverPortField.setText("3478")
         self.view.localPortField.setText(str(random.randint(10000, 65000)))

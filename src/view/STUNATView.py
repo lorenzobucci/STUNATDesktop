@@ -83,8 +83,6 @@ class STUNATView(QtWidgets.QMainWindow):
             QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred))
         self.natRepresentation.setFixedWidth(225)
 
-        self.setNatRepresentation("UnknownNAT.png")
-
         self.natRepresentation.setObjectName("natRepresentation")
         self.homeTabGridLayout.addWidget(self.natRepresentation, 2, 1, 1, 1)
 
