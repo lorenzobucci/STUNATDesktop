@@ -38,19 +38,16 @@ class Controller:
             self.view.extIPResultLabel.setText(self.model.testResults["extIP"]),
             self.view.extPortResultLabel.setText(str(self.model.testResults["extPort"])),
             self.view.showResultsGroupBox(),
-            self._restoreWindowStateAfterTest()
+            self.view.startButton.setEnabled(True),
+            self.view.unsetCursor()
 
         })
         worker.stunException.connect(lambda: {
             self.view.setNatRepresentation("UnknownNAT.png"),
-            self._restoreWindowStateAfterTest(),
+            self.view.startButton.setEnabled(True),
+            self.view.unsetCursor(),
             self.view.showErrorMessage(worker.exceptionMessage)
         })
-
-    def _restoreWindowStateAfterTest(self):
-        self.view.startButton.setEnabled(True)
-        self.view.unsetCursor()
-        self.view.homeDescriptionLabel.setHidden(False)
 
 
 class STUNWorker(QObject):

@@ -1,6 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt, QRegExp
-from PyQt5.QtGui import QCursor
+from PyQt5.QtGui import QCursor, QFont
 from PyQt5.QtGui import QRegExpValidator
 from PyQt5.QtWidgets import QMessageBox
 
@@ -32,7 +32,10 @@ class STUNATView(QtWidgets.QMainWindow):
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         self.homeTitleLabel.setSizePolicy(sizePolicy)
         self.homeTitleLabel.setText("STUNAT")
-        self.homeTitleLabel.setStyleSheet("font-size:18pt; font-weight:600;")
+        self.homeTitleLabel.setStyleSheet("font-size:22pt; font-weight:600;")
+        font = QFont()
+        font.setFamily(u"Courier New")
+        self.homeTitleLabel.setFont(font)
         self.homeTitleLabel.setAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop)
         self.homeTitleLabel.setObjectName("homeTitleLabel")
         self.homeTabGridLayout.addWidget(self.homeTitleLabel, 0, 0, 1, 2)
@@ -40,6 +43,7 @@ class STUNATView(QtWidgets.QMainWindow):
         self.homeDescriptionLabel = QtWidgets.QLabel(self.homeTab)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         self.homeDescriptionLabel.setSizePolicy(sizePolicy)
+        self.homeDescriptionLabel.setStyleSheet("font-size:10pt")
         self.homeDescriptionLabel.setAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop)
         self.homeDescriptionLabel.setObjectName("homeDescriptionLabel")
         self.homeTabGridLayout.addWidget(self.homeDescriptionLabel, 1, 0, 1, 2)
