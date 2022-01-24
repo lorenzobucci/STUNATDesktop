@@ -1,5 +1,7 @@
-import stun
+import locale
+
 import netifaces
+import stun
 
 resultsMap = {
     "Blocked": ("Blocked", "Blocked.png"),
@@ -30,6 +32,11 @@ class Model:
             "extIP": "",
             "extPort": 0
         }
+
+        if locale.getdefaultlocale()[0] == "it_IT":
+            self.currentOSLanguage = "Italiano"
+        else:
+            self.currentOSLanguage = "English"
 
     def startTest(self, serverHostname, serverPort, sourceIP, localPort):
         _sourceIP = sourceIP
