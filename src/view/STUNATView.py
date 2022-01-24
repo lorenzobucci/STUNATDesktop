@@ -34,7 +34,7 @@ class STUNATView(QtWidgets.QMainWindow):
 
         self.translator = QtCore.QTranslator(self)
         self.optionsTab.languageComboBox.currentIndexChanged.connect(self._languageChangedHandler)
-        self.retranslateUi()
+        self._retranslateUi()
 
     def setBusyCursor(self):
         self.setCursor(QCursor(Qt.WaitCursor))
@@ -53,9 +53,9 @@ class STUNATView(QtWidgets.QMainWindow):
             QtWidgets.QApplication.instance().installTranslator(self.translator)
         else:
             QtWidgets.QApplication.instance().removeTranslator(self.translator)
-        self.retranslateUi()
+        self._retranslateUi()
 
-    def retranslateUi(self):
+    def _retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.optionsTab), _translate("STUNATView", "Opzioni"))
         self.homeTab.retranslateUi()
