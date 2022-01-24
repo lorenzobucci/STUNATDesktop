@@ -114,7 +114,6 @@ class STUNATView(QtWidgets.QMainWindow):
         self.stunServerGroupBoxHLayout.addWidget(self.serverHostnameLabel)
 
         self.serverHostnameField = QtWidgets.QLineEdit(self.stunServerGroupBox)
-        self.serverHostnameField.setText("stun.sipgate.net")
         self.serverHostnameField.setObjectName("serverHostnameField")
         self.stunServerGroupBoxHLayout.addWidget(self.serverHostnameField)
 
@@ -125,7 +124,6 @@ class STUNATView(QtWidgets.QMainWindow):
         self.serverPortField = QtWidgets.QLineEdit(self.stunServerGroupBox)
         self.serverPortField.setFixedWidth(50)
         self.serverPortField.setValidator(QRegExpValidator(portRegExp))
-        self.serverPortField.setText("3478")
         self.serverPortField.setMaxLength(5)
         self.serverPortField.setObjectName("serverPortField")
         self.stunServerGroupBoxHLayout.addWidget(self.serverPortField)
@@ -154,7 +152,6 @@ class STUNATView(QtWidgets.QMainWindow):
         self.localPortField = QtWidgets.QLineEdit(self.netParamsGroupBox)
         self.localPortField.setFixedWidth(50)
         self.localPortField.setValidator(QRegExpValidator(portRegExp))
-        self.localPortField.setText("54320")
         self.localPortField.setMaxLength(5)
         self.localPortField.setObjectName("localPortField")
         self.netParamsGroupBoxHLayout.addWidget(self.localPortField)

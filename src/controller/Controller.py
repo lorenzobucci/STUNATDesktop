@@ -19,6 +19,10 @@ class Controller:
         self.view.sourceIPComboBox.insertItems(0, self.model.localIPList)
         self.view.sourceIPComboBox.setCurrentIndex(0)
 
+        self.view.serverHostnameField.setText("stun.sipgate.net")
+        self.view.serverPortField.setText("3478")
+        self.view.localPortField.setText(str(random.randint(10000, 65000)))
+
     def _startButtonHandler(self):
         self.model.startTest(self.view.serverHostnameField.text(), self.view.serverPortField.text(),
                              self.view.sourceIPComboBox.currentText(), self.view.localPortField.text())
