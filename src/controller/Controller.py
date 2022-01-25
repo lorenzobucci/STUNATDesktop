@@ -36,9 +36,9 @@ class Controller:
         threading.Thread(target=worker.startTest, args=(self.view, self.model)).start()
         worker.finished.connect(lambda: {
             self.view.homeTab.setNatRepresentation(self.model.testResults["natRepresentationImage"]),
-            self.view.homeTab.natTypeResultLabel.setText(self.model.testResults["natType"]),
-            self.view.homeTab.extIPResultLabel.setText(self.model.testResults["extIP"]),
-            self.view.homeTab.extPortResultLabel.setText(str(self.model.testResults["extPort"])),
+            self.view.homeTab.resultsGroupBox.natTypeResultLabel.setText(self.model.testResults["natType"]),
+            self.view.homeTab.resultsGroupBox.extIPResultLabel.setText(self.model.testResults["extIP"]),
+            self.view.homeTab.resultsGroupBox.extPortResultLabel.setText(str(self.model.testResults["extPort"])),
             self.view.homeTab.showResultsGroupBox(),
             self.view.homeTab.startButton.setEnabled(True),
             self.view.unsetCursor()

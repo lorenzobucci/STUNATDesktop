@@ -3,6 +3,8 @@ from PyQt5.QtGui import QFont, QPixmap, QMovie, QRegExpValidator
 from PyQt5.QtWidgets import QWidget, QGridLayout, QLabel, QSizePolicy, QGroupBox, QPushButton, QVBoxLayout, QHBoxLayout, \
     QLineEdit, QComboBox, QSpacerItem
 
+from view.STUNResultsGroupBox import STUNResultsGroupBox
+
 
 class HomeTab(QWidget):
     def __init__(self):
@@ -29,39 +31,8 @@ class HomeTab(QWidget):
         self.homeDescriptionLabel.setObjectName("homeDescriptionLabel")
         self.homeTabGridLayout.addWidget(self.homeDescriptionLabel, 1, 0, 1, 2)
 
-        self.resultsGroupBox = QGroupBox(self)
-        self.resultsGroupBox.setObjectName("resultsGroupBox")
-        self.resultsGroupBox.setSizePolicy(QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed))
-        self.resultsGroupBox.setFixedWidth(207)
+        self.resultsGroupBox = STUNResultsGroupBox(self)
         self.homeTabGridLayout.addWidget(self.resultsGroupBox, 2, 1, 1, 1)
-
-        self.resultsGroupBoxGridLayout = QGridLayout(self.resultsGroupBox)
-        self.resultsGroupBoxGridLayout.setObjectName("resultsGroupBoxGridLayout")
-
-        self.natTypeLabel = QLabel(self.resultsGroupBox)
-        self.natTypeLabel.setObjectName("natTypeLabel")
-        self.natTypeLabel.setStyleSheet("font-weight:600;")
-        self.resultsGroupBoxGridLayout.addWidget(self.natTypeLabel, 0, 0, 1, 1)
-
-        self.extIPLabel = QLabel(self.resultsGroupBox)
-        self.extIPLabel.setObjectName("extIPLabel")
-        self.resultsGroupBoxGridLayout.addWidget(self.extIPLabel, 1, 0, 1, 1)
-
-        self.extPortLabel = QLabel(self.resultsGroupBox)
-        self.extPortLabel.setObjectName("extPortLabel")
-        self.resultsGroupBoxGridLayout.addWidget(self.extPortLabel, 2, 0, 1, 1)
-
-        self.natTypeResultLabel = QLabel(self.resultsGroupBox)
-        self.natTypeResultLabel.setObjectName("natTypeResultLabel")
-        self.resultsGroupBoxGridLayout.addWidget(self.natTypeResultLabel, 0, 1, 1, 1)
-
-        self.extIPResultLabel = QLabel(self.resultsGroupBox)
-        self.extIPResultLabel.setObjectName("extIPResultLabel")
-        self.resultsGroupBoxGridLayout.addWidget(self.extIPResultLabel, 1, 1, 1, 1)
-
-        self.extPortResultLabel = QLabel(self.resultsGroupBox)
-        self.extPortResultLabel.setObjectName("extPortResultLabel")
-        self.resultsGroupBoxGridLayout.addWidget(self.extPortResultLabel, 2, 1, 1, 1)
 
         self.natRepresentation = QLabel(self)
         self.natRepresentation.setSizePolicy(QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred))
@@ -96,13 +67,11 @@ class HomeTab(QWidget):
 
     def retranslateUi(self):
         _translate = QCoreApplication.translate
-        self.extIPLabel.setText(_translate("STUNATView", "Indirizzo IP\nesterno:"))
-        self.natTypeLabel.setText(_translate("STUNATView", "Tipo di NAT:"))
-        self.extPortLabel.setText(_translate("STUNATView", "Porta esterna:"))
         self.homeDescriptionLabel.setText(_translate("STUNATView",
                                                      "Scopri il tipo di NAT presente sulla tua rete.\n"
                                                      "Clicca su Inizia test e attendi il risultato."))
         self.startButton.setText(_translate("STUNATView", "Inizia test"))
+        self.resultsGroupBox.retranslateUi()
 
 
 class OptionsTab(QWidget):
