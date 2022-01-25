@@ -61,7 +61,7 @@ class HomeTab(QWidget):
         self.homeTabGridLayout.addWidget(self.natRepresentation, 2, 0, 1, 2, Qt.AlignHCenter)
 
     def showResultsGroupBox(self):
-        self.resultsGroupBox.setHidden(False)
+        self.resultsGroupBox.show()
         self.homeTabGridLayout.removeWidget(self.natRepresentation)
         self.homeTabGridLayout.addWidget(self.natRepresentation, 2, 0, 1, 1)
 
