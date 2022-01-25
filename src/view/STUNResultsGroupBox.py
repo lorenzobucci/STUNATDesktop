@@ -7,7 +7,7 @@ class STUNResultsGroupBox(QGroupBox):
         super().__init__(parent)
 
         self.setObjectName("resultsGroupBox")
-        self.setSizePolicy(QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed))
+        self.setSizePolicy(QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Minimum))
         self.setFixedWidth(207)
 
         self.resultsGroupBoxGridLayout = QGridLayout(self)
@@ -38,8 +38,59 @@ class STUNResultsGroupBox(QGroupBox):
         self.extPortResultLabel.setObjectName("extPortResultLabel")
         self.resultsGroupBoxGridLayout.addWidget(self.extPortResultLabel, 2, 1, 1, 1)
 
+        self.errorLabel = QLabel(self)
+        self.errorLabel.setObjectName("errorLabel")
+        self.errorLabel.setStyleSheet("font-weight:600;color:#B22222;")
+        self.resultsGroupBoxGridLayout.addWidget(self.errorLabel, 3, 0, 1, 1)
+        self.errorLabel.hide()
+
+        self.errorDescriptionLabel = QLabel(self)
+        self.errorDescriptionLabel.setObjectName("errorDescriptionLabel")
+        self.resultsGroupBoxGridLayout.addWidget(self.errorDescriptionLabel, 4, 0, 1, 1)
+        self.errorDescriptionLabel.hide()
+
+        self.errorResultLabel = QLabel(self)
+        self.errorResultLabel.setObjectName("errorResultLabel")
+        self.errorResultLabel.setWordWrap(True)
+        self.resultsGroupBoxGridLayout.addWidget(self.errorResultLabel, 3, 1, 1, 1)
+        self.errorResultLabel.hide()
+
+        self.errorDescriptionResultLabel = QLabel(self)
+        self.errorDescriptionResultLabel.setObjectName("errorDescriptionResultLabel")
+        self.errorDescriptionResultLabel.setWordWrap(True)
+        self.resultsGroupBoxGridLayout.addWidget(self.errorDescriptionResultLabel, 4, 1, 1, 1)
+        self.errorDescriptionResultLabel.hide()
+
+    def displayErrorResult(self):
+        self.natTypeLabel.hide()
+        self.extIPLabel.hide()
+        self.extPortLabel.hide()
+        self.natTypeResultLabel.hide()
+        self.extIPResultLabel.hide()
+        self.extPortResultLabel.hide()
+
+        self.errorLabel.show()
+        self.errorDescriptionLabel.show()
+        self.errorResultLabel.show()
+        self.errorDescriptionResultLabel.show()
+
+    def displayCorrectResult(self):
+        self.natTypeLabel.show()
+        self.extIPLabel.show()
+        self.extPortLabel.show()
+        self.natTypeResultLabel.show()
+        self.extIPResultLabel.show()
+        self.extPortResultLabel.show()
+
+        self.errorLabel.hide()
+        self.errorDescriptionLabel.hide()
+        self.errorResultLabel.hide()
+        self.errorDescriptionResultLabel.hide()
+
     def retranslateUi(self):
         _translate = QCoreApplication.translate
         self.extIPLabel.setText(_translate("STUNATView", "Indirizzo IP\nesterno:"))
         self.natTypeLabel.setText(_translate("STUNATView", "Tipo di NAT:"))
         self.extPortLabel.setText(_translate("STUNATView", "Porta esterna:"))
+        self.errorLabel.setText(_translate("STUNATView", "Errore:"))
+        self.errorDescriptionLabel.setText(_translate("STUNATView", "Descrizione:"))

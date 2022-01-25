@@ -3,17 +3,6 @@ import locale
 import netifaces
 import stun
 
-resultsMap = {
-    "Blocked": ("Blocked", "Blocked.png"),
-    "Open Internet": ("Open Internet", "OpenInternet.png"),
-    "Full Cone": ("Full Cone NAT", "FullConeNAT.png"),
-    "Symmetric UDP Firewall": ("Symmetric UDP Firewall", "SymmetricFirewall.png"),
-    "Restric NAT": ("Restricted Cone NAT", "RestrictedConeNAT.png"),
-    "Restric Port NAT": ("Port Restricted NAT", "PortRestrictedNAT.png"),
-    "Symmetric NAT": ("Symmetric NAT", "SymmetricNAT.png"),
-    "Meet an error, when do Test1 on Changed IP and Port": ("Changed Address Error", "UnknownNAT.png")
-}
-
 
 class Model:
     def __init__(self):
@@ -44,8 +33,52 @@ class Model:
             _sourceIP = "0.0.0.0"
 
         res = stun.get_ip_info(_sourceIP, int(localPort), serverHostname, int(serverPort))
+        self.testResults = resultsMap[res[0]]
         self.testResults["extIP"] = res[1]
         self.testResults["extPort"] = res[2]
 
-        self.testResults["natType"] = resultsMap[res[0]][0]
-        self.testResults["natRepresentationImage"] = resultsMap[res[0]][1]
+
+resultsMap = {
+    "Blocked": {
+        "isAnError": True,
+        "errorName": "Connection blocked",
+        "errorDescription": "Unable to reach STUN server.\nPlease, check your connection and try again.",
+        "natRepresentationImage": "Blocked.png",
+    },
+    "Open Internet": {
+        "isAnError": False,
+        "natType": "Open Internet",
+        "natRepresentationImage": "OpenInternet.png"
+    },
+    "Full Cone": {
+        "isAnError": False,
+        "natType": "Full Cone NAT",
+        "natRepresentationImage": "FullConeNAT.png"
+    },
+    "Symmetric UDP Firewall": {
+        "isAnError": False,
+        "natType": "Symmetric UDP Firewall",
+        "natRepresentationImage": "SymmetricFirewall.png"
+    },
+    "Restric NAT": {
+        "isAnError": False,
+        "natType": "Restricted Cone NAT",
+        "natRepresentationImage": "RestrictedConeNAT.png"
+    },
+    "Restric Port NAT": {
+        "isAnError": False,
+        "natType": "Port Restricted NAT",
+        "natRepresentationImage": "PortRestrictedNAT.png"
+    },
+    "Symmetric NAT": {
+        "isAnError": False,
+        "natType": "Symmetric NAT",
+        "natRepresentationImage": "SymmetricNAT.png"
+    },
+    "Meet an error, when do Test1 on Changed IP and Port": {
+        "isAnError": True,
+        "errorName": "Changed address error",
+        "errorDescription": "Meet an error, when do Test1 on Changed IP and Port",
+        "natRepresentationImage": "UnknownNAT.png",
+    }
+}

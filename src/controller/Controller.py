@@ -34,22 +34,29 @@ class Controller:
 
         worker = STUNWorker()
         threading.Thread(target=worker.startTest, args=(self.view, self.model)).start()
-        worker.finished.connect(lambda: {
-            self.view.homeTab.setNatRepresentation(self.model.testResults["natRepresentationImage"]),
-            self.view.homeTab.resultsGroupBox.natTypeResultLabel.setText(self.model.testResults["natType"]),
-            self.view.homeTab.resultsGroupBox.extIPResultLabel.setText(self.model.testResults["extIP"]),
-            self.view.homeTab.resultsGroupBox.extPortResultLabel.setText(str(self.model.testResults["extPort"])),
-            self.view.homeTab.showResultsGroupBox(),
-            self.view.homeTab.startButton.setEnabled(True),
-            self.view.unsetCursor()
-
-        })
+        worker.finished.connect(self._processWorkerResults)
         worker.stunException.connect(lambda: {
             self.view.homeTab.setNatRepresentation("UnknownNAT.png"),
             self.view.homeTab.startButton.setEnabled(True),
             self.view.unsetCursor(),
             self.view.showErrorMessage(worker.exceptionMessage)
         })
+
+    def _processWorkerResults(self):
+        self.view.homeTab.setNatRepresentation(self.model.testResults["natRepresentationImage"])
+        if self.model.testResults["isAnError"]:
+            self.view.homeTab.resultsGroupBox.displayErrorResult()
+            self.view.homeTab.resultsGroupBox.errorResultLabel.setText(self.model.testResults["errorName"])
+            self.view.homeTab.resultsGroupBox.errorDescriptionResultLabel.setText(
+                self.model.testResults["errorDescription"])
+        else:
+            self.view.homeTab.resultsGroupBox.displayCorrectResult()
+            self.view.homeTab.resultsGroupBox.natTypeResultLabel.setText(self.model.testResults["natType"])
+            self.view.homeTab.resultsGroupBox.extIPResultLabel.setText(self.model.testResults["extIP"])
+            self.view.homeTab.resultsGroupBox.extPortResultLabel.setText(str(self.model.testResults["extPort"]))
+        self.view.homeTab.showResultsGroupBox()
+        self.view.homeTab.startButton.setEnabled(True)
+        self.view.unsetCursor()
 
 
 class STUNWorker(QObject):
