@@ -26,7 +26,7 @@ class HomeTab(QWidget):
 
         self.homeDescriptionLabel = QLabel(self)
         self.homeDescriptionLabel.setSizePolicy(QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed))
-        self.homeDescriptionLabel.setStyleSheet("font-size:10pt")
+        self.homeDescriptionLabel.setStyleSheet("font-size:10pt;")
         self.homeDescriptionLabel.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
         self.homeDescriptionLabel.setObjectName("homeDescriptionLabel")
         self.homeTabGridLayout.addWidget(self.homeDescriptionLabel, 1, 0, 1, 2)

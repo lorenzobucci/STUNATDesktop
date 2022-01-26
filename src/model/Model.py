@@ -6,6 +6,7 @@ import stun
 
 class Model:
     def __init__(self):
+        self.testResults = None
         self.localIPList = ["Default"]
         for iface in netifaces.interfaces():
             ifaceDetails = netifaces.ifaddresses(iface)
@@ -14,13 +15,6 @@ class Model:
                     for key, ip in ip_interfaces.items():
                         if key == 'addr' and ip != '127.0.0.1':
                             self.localIPList.append(ip)
-
-        self.testResults = {
-            "natType": "",
-            "natRepresentationImage": "",
-            "extIP": "",
-            "extPort": 0
-        }
 
         if locale.getdefaultlocale()[0] == "it_IT":
             self.currentOSLanguage = "Italiano"

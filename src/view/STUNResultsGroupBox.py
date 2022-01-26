@@ -1,4 +1,4 @@
-from PyQt5.QtCore import QCoreApplication
+from PyQt5.QtCore import Qt, QCoreApplication
 from PyQt5.QtWidgets import QGroupBox, QSizePolicy, QGridLayout, QLabel
 
 
@@ -46,6 +46,7 @@ class STUNResultsGroupBox(QGroupBox):
 
         self.errorDescriptionLabel = QLabel(self)
         self.errorDescriptionLabel.setObjectName("errorDescriptionLabel")
+        self.errorDescriptionLabel.setAlignment(Qt.AlignTop)
         self.resultsGroupBoxGridLayout.addWidget(self.errorDescriptionLabel, 4, 0, 1, 1)
         self.errorDescriptionLabel.hide()
 
