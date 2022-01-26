@@ -33,14 +33,14 @@ class Controller:
         self.view.homeTab.homeDescriptionLabel.hide()
 
         worker = STUNWorker()
-        threading.Thread(target=worker.startTest, args=(self.view, self.model)).start()
         worker.finished.connect(self._processWorkerResults)
         worker.stunException.connect(lambda: {
             self.view.homeTab.setNatRepresentation("UnknownNAT.png"),
             self.view.homeTab.startButton.setEnabled(True),
             self.view.unsetCursor(),
-            self.view.showErrorMessage(worker.exceptionMessage)
+            self.view.showErrorMessage(str(worker.lastException))
         })
+        threading.Thread(target=worker.startTest, args=(self.view, self.model)).start()
 
     def _processWorkerResults(self):
         self.view.homeTab.setNatRepresentation(self.model.testResults["natRepresentationImage"])
@@ -63,7 +63,7 @@ class STUNWorker(QObject):
     finished = pyqtSignal()
     stunException = pyqtSignal()
 
-    exceptionMessage = ""
+    lastException = None
 
     def startTest(self, view, model):
         try:
@@ -71,5 +71,5 @@ class STUNWorker(QObject):
                             view.optionsTab.sourceIPComboBox.currentText(), view.optionsTab.localPortField.text())
             self.finished.emit()
         except Exception as e:
-            self.exceptionMessage = str(e)
+            self.lastException = e
             self.stunException.emit()
