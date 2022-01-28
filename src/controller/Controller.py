@@ -24,8 +24,6 @@ class Controller:
         self.view.optionsTab.sourceIPComboBox.setCurrentIndex(0)
         self.view.optionsTab.localPortField.setText(str(random.randint(10000, 65000)))
 
-        self.view.optionsTab.languageComboBox.setCurrentText(self.model.currentOSLanguage)
-
     def _startButtonHandler(self):
         self.view.homeTab.startButton.setDisabled(True)
         self.view.setBusyCursor()

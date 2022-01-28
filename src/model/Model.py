@@ -1,5 +1,3 @@
-import locale
-
 import netifaces
 import stun
 
@@ -15,11 +13,6 @@ class Model:
                     for key, ip in ip_interfaces.items():
                         if key == 'addr' and ip != '127.0.0.1':
                             self.localIPList.append(ip)
-
-        if locale.getdefaultlocale()[0] == "it_IT":
-            self.currentOSLanguage = "Italiano"
-        else:
-            self.currentOSLanguage = "English"
 
     def startTest(self, serverHostname, serverPort, sourceIP, localPort):
         _sourceIP = sourceIP

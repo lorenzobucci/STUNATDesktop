@@ -1,4 +1,4 @@
-from PyQt5.QtCore import Qt, QSize, QRect, QTranslator, QCoreApplication
+from PyQt5.QtCore import Qt, QSize, QRect, QTranslator, QCoreApplication, QLocale, QLibraryInfo
 from PyQt5.QtGui import QCursor
 from PyQt5.QtWidgets import QMessageBox, QMainWindow, QWidget, QTabWidget, QApplication
 
@@ -34,7 +34,17 @@ class STUNATView(QMainWindow):
 
         self.translator = QTranslator(self)
         self.optionsTab.languageComboBox.currentIndexChanged.connect(self._languageChangedHandler)
+        if QLocale.system().name() == "it_IT":
+            currentOSLanguage = "Italiano"
+        else:
+            currentOSLanguage = "English"
+        self.optionsTab.languageComboBox.setCurrentText(currentOSLanguage)
         self._retranslateUi()
+
+        self.qtTranslator = QTranslator(self)
+        self.qtTranslator.load("qtbase_" + QLocale.system().name(),
+                               QLibraryInfo.location(QLibraryInfo.TranslationsPath))
+        QApplication.instance().installTranslator(self.qtTranslator)
 
     def setBusyCursor(self):
         self.setCursor(QCursor(Qt.WaitCursor))
@@ -49,7 +59,7 @@ class STUNATView(QMainWindow):
     def _languageChangedHandler(self, index):
         data = self.optionsTab.languageComboBox.itemData(index)
         if data:
-            self.translator.load("view/" + data)
+            self.translator.load(data, "view")
             QApplication.instance().installTranslator(self.translator)
         else:
             QApplication.instance().removeTranslator(self.translator)
