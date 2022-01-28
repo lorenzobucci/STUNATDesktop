@@ -22,7 +22,7 @@ class Controller:
         self.view.optionsTab.serverPortField.setText("3478")
         self.view.optionsTab.sourceIPComboBox.insertItems(0, self.model.localIPList)
         self.view.optionsTab.sourceIPComboBox.setCurrentIndex(0)
-        self.view.optionsTab.localPortField.setText(str(random.randint(10000, 65000)))
+        self.view.optionsTab.localPortField.setText(str(random.randint(10000, 40000)))
 
     def _startButtonHandler(self):
         self.view.homeTab.startButton.setDisabled(True)
