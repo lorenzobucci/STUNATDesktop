@@ -29,10 +29,12 @@ class Controller:
         self.view.setBusyCursor()
         self.view.homeTab.setNatRepresentation("Loading.gif")
         self.view.homeTab.homeDescriptionLabel.hide()
+        self.view.homeTab.resultsGroupBox.setDisabled(True)
 
         worker = STUNWorker()
         worker.finished.connect(self._processWorkerResults)
         worker.stunException.connect(lambda: {
+            self.view.homeTab.hideResultsGroupBox(),
             self.view.homeTab.setNatRepresentation("UnknownNAT.png"),
             self.view.homeTab.startButton.setEnabled(True),
             self.view.unsetCursor(),
@@ -41,6 +43,7 @@ class Controller:
         threading.Thread(target=worker.startTest, args=(self.view, self.model)).start()
 
     def _processWorkerResults(self):
+        self.view.homeTab.resultsGroupBox.setEnabled(True)
         self.view.homeTab.setNatRepresentation(self.model.testResults["natRepresentationImage"])
         if self.model.testResults["isAnError"]:
             self.view.homeTab.resultsGroupBox.displayErrorResult()
