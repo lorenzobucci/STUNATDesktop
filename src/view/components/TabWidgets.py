@@ -3,7 +3,7 @@ from PyQt5.QtGui import QFont, QPixmap, QMovie, QRegExpValidator
 from PyQt5.QtWidgets import QWidget, QGridLayout, QLabel, QSizePolicy, QGroupBox, QPushButton, QVBoxLayout, QHBoxLayout, \
     QLineEdit, QComboBox, QSpacerItem
 
-from view.STUNResultsGroupBox import STUNResultsGroupBox
+from view.components.STUNResultsGroupBox import STUNResultsGroupBox
 
 
 class HomeTab(QWidget):

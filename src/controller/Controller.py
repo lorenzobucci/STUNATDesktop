@@ -4,6 +4,7 @@ import threading
 from PyQt5.QtCore import QObject, pyqtSignal
 
 from model.Model import Model
+from view.LogDialog import LogDialog
 from view.STUNATView import STUNATView
 
 
@@ -14,6 +15,7 @@ class Controller:
         self.model = model
 
         self.view.homeTab.startButton.clicked.connect(self._startButtonHandler)
+        self.view.homeTab.resultsGroupBox.viewLogLabel.clicked.connect(self._viewLogHandler)
 
         self.view.homeTab.setNatRepresentation("UnknownNAT.png")
         self.view.homeTab.hideResultsGroupBox()
@@ -58,6 +60,10 @@ class Controller:
         self.view.homeTab.showResultsGroupBox()
         self.view.homeTab.startButton.setEnabled(True)
         self.view.unsetCursor()
+
+    def _viewLogHandler(self):
+        logDialog = LogDialog(self.model.rawLog)
+        logDialog.exec()
 
 
 class STUNWorker(QObject):

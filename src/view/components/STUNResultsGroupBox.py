@@ -1,4 +1,5 @@
-from PyQt5.QtCore import Qt, QCoreApplication
+from PyQt5.QtCore import Qt, QCoreApplication, QEvent, pyqtSignal
+from PyQt5.QtGui import QFont, QCursor, QMouseEvent
 from PyQt5.QtWidgets import QGroupBox, QSizePolicy, QGridLayout, QLabel
 
 
@@ -62,6 +63,10 @@ class STUNResultsGroupBox(QGroupBox):
         self.resultsGroupBoxGridLayout.addWidget(self.errorDescriptionResultLabel, 4, 1, 1, 1)
         self.errorDescriptionResultLabel.hide()
 
+        self.viewLogLabel = QClickableLabel(self)
+        self.viewLogLabel.setObjectName("viewLogLabel")
+        self.resultsGroupBoxGridLayout.addWidget(self.viewLogLabel, 5, 0, 1, 2)
+
     def displayErrorResult(self):
         self.natTypeLabel.hide()
         self.extIPLabel.hide()
@@ -95,3 +100,30 @@ class STUNResultsGroupBox(QGroupBox):
         self.extPortLabel.setText(_translate("STUNATView", "Porta esterna:"))
         self.errorLabel.setText(_translate("STUNATView", "Errore:"))
         self.errorDescriptionLabel.setText(_translate("STUNATView", "Descrizione:"))
+        self.viewLogLabel.setText(_translate("STUNATView", "Visualizza log avanzato"))
+
+
+class QClickableLabel(QLabel):
+    clicked = pyqtSignal()
+
+    def __init__(self, p):
+        super().__init__(parent=p)
+
+        self.setStyleSheet("color: #0078d7;")
+        self.setCursor(QCursor(Qt.PointingHandCursor))
+
+    def leaveEvent(self, a0: QEvent) -> None:
+        super(QClickableLabel, self).leaveEvent(a0)
+        f = QFont()
+        f.setUnderline(False)
+        self.setFont(f)
+
+    def enterEvent(self, a0: QEvent) -> None:
+        super(QClickableLabel, self).enterEvent(a0)
+        f = QFont()
+        f.setUnderline(True)
+        self.setFont(f)
+
+    def mousePressEvent(self, ev: QMouseEvent) -> None:
+        super(QClickableLabel, self).mousePressEvent(ev)
+        self.clicked.emit()

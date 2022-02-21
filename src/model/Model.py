@@ -1,9 +1,14 @@
 import netifaces
 import stun
 
+from model.STUNLogger import STUNLogger
+
 
 class Model:
     def __init__(self):
+        self.logger = STUNLogger()
+        self.rawLog = ""
+
         self.testResults = None
         self.localIPList = ["Default"]
         for iface in netifaces.interfaces():
@@ -15,6 +20,8 @@ class Model:
                             self.localIPList.append(ip)
 
     def startTest(self, serverHostname, serverPort, sourceIP, localPort):
+        self.logger.resetLog()
+
         _sourceIP = sourceIP
         if _sourceIP == "Default":
             _sourceIP = "0.0.0.0"
@@ -23,6 +30,8 @@ class Model:
         self.testResults = resultsMap[res[0]]
         self.testResults["extIP"] = res[1]
         self.testResults["extPort"] = res[2]
+
+        self.rawLog = self.logger.getLog()
 
 
 resultsMap = {

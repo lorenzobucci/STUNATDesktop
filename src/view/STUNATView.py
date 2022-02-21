@@ -2,7 +2,7 @@ from PyQt5.QtCore import Qt, QSize, QRect, QTranslator, QCoreApplication, QLocal
 from PyQt5.QtGui import QCursor
 from PyQt5.QtWidgets import QMessageBox, QMainWindow, QWidget, QTabWidget, QApplication
 
-from view.TabWidgets import HomeTab, OptionsTab
+from view.components.TabWidgets import HomeTab, OptionsTab
 
 
 class STUNATView(QMainWindow):
