@@ -65,7 +65,7 @@ resultsMap = {
     "Meet an error, when do Test1 on Changed IP and Port": {
         "isAnError": True,
         "errorName": "Changed address error",
-        "errorDescription": "Meet an error, when do Test1 on Changed IP and Port",
+        "errorDescription": "Meet an error, when do Test1 on Changed IP and Port. Try change STUN server.",
         "natRepresentationImage": "UnknownNAT.png",
     }
 }
