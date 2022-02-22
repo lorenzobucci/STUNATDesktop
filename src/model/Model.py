@@ -1,13 +1,26 @@
+import socket
+
 import netifaces
 import stun
 
 from model.STUNLogger import STUNLogger
 
 
+def _createSocket(ip, port):
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.settimeout(2)
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    s.bind((ip, port))
+    return s
+
+
 class Model:
     def __init__(self):
-        self.logger = STUNLogger()
+        self._logger = STUNLogger()
         self.rawLog = ""
+
+        self._socket = _createSocket("0.0.0.0", 0)
+        self.localPort = self._socket.getsockname()[1]
 
         self.testResults = None
         self.localIPList = ["Default"]
@@ -20,18 +33,22 @@ class Model:
                             self.localIPList.append(ip)
 
     def startTest(self, serverHostname, serverPort, sourceIP, localPort):
-        self.logger.resetLog()
+        self._logger.resetLog()
 
         _sourceIP = sourceIP
         if _sourceIP == "Default":
             _sourceIP = "0.0.0.0"
 
-        res = stun.get_ip_info(_sourceIP, int(localPort), serverHostname, int(serverPort))
-        self.testResults = resultsMap[res[0]]
-        self.testResults["extIP"] = res[1]
-        self.testResults["extPort"] = res[2]
+        self._socket.close()
+        self.localPort = int(localPort)
+        self._socket = _createSocket(_sourceIP, self.localPort)
 
-        self.rawLog = self.logger.getLog()
+        res = stun.get_nat_type(self._socket, _sourceIP, self.localPort, serverHostname, int(serverPort))
+        self.testResults = resultsMap[res[0]]
+        self.testResults["extIP"] = res[1]['ExternalIP']
+        self.testResults["extPort"] = res[1]['ExternalPort']
+
+        self.rawLog = self._logger.getLog()
 
 
 resultsMap = {
