@@ -10,6 +10,10 @@ from view.STUNATView import STUNATView
 class Controller:
 
     def __init__(self, stuNatView: STUNATView, model: Model):
+        """
+        Inizializza il Controller connettendo gli eventi della view ai loro handler e impostando i parametri
+        predefiniti dell'applicazione.
+        """
         self.view = stuNatView
         self.model = model
 
@@ -26,6 +30,10 @@ class Controller:
         self.view.optionsTab.localPortField.setText(str(self.model.localPort))
 
     def _startButtonHandler(self):
+        """
+        Prepara la view all'esecuzione del test, crea un oggetto STUNWorker che eseguirà il test su un thread
+        separato e gestisce eventuali eccezioni lanciate durante il test.
+        """
         self.view.homeTab.startButton.setDisabled(True)
         self.view.setBusyCursor()
         self.view.homeTab.setNatRepresentation("Loading.gif")
@@ -33,25 +41,28 @@ class Controller:
         self.view.homeTab.resultsGroupBox.setDisabled(True)
 
         worker = STUNWorker()
-        worker.finished.connect(self._processWorkerResults)
-        worker.stunException.connect(lambda: {
+        worker.finished.connect(self._processWorkerResults)  # Si processano i risultati appena il test si è concluso
+        worker.stunException.connect(lambda: {  # In caso di eccezione durante il test si ripristina lo stato originale della view
             self.view.homeTab.hideResultsGroupBox(),
             self.view.homeTab.setNatRepresentation("UnknownNAT.png"),
             self.view.homeTab.startButton.setEnabled(True),
             self.view.unsetCursor(),
-            self.view.showErrorMessage(str(worker.lastException))
+            self.view.showErrorMessage(str(worker.lastException))  # Si mostra sulla view il messaggio contenuto nell'eccezione
         })
         threading.Thread(target=worker.startTest, args=(self.view, self.model)).start()
 
     def _processWorkerResults(self):
+        """
+        Visualizza sulla view i risultati del test.
+        """
         self.view.homeTab.resultsGroupBox.setEnabled(True)
         self.view.homeTab.setNatRepresentation(self.model.testResults["natRepresentationImage"])
-        if self.model.testResults["isAnError"]:
+        if self.model.testResults["isAnError"]:  # In caso di test fallito
             self.view.homeTab.resultsGroupBox.displayErrorResult()
             self.view.homeTab.resultsGroupBox.errorResultLabel.setText(self.model.testResults["errorName"])
             self.view.homeTab.resultsGroupBox.errorDescriptionResultLabel.setText(
                 self.model.testResults["errorDescription"])
-        else:
+        else:  # In caso di test riuscito
             self.view.homeTab.resultsGroupBox.displayCorrectResult()
             self.view.homeTab.resultsGroupBox.natTypeResultLabel.setText(self.model.testResults["natType"])
             self.view.homeTab.resultsGroupBox.extIPResultLabel.setText(self.model.testResults["extIP"])
@@ -61,10 +72,14 @@ class Controller:
         self.view.unsetCursor()
 
     def _viewLogHandler(self):
+        """
+        Apre la finestra che visualizza il log avanzato.
+        """
         logDialog = LogDialog(self.model.rawLog)
         logDialog.exec()
 
 
+# Gestisce l'esecuzione del test
 class STUNWorker(QObject):
     finished = pyqtSignal()
     stunException = pyqtSignal()
@@ -72,6 +87,10 @@ class STUNWorker(QObject):
     lastException = None
 
     def startTest(self, view, model):
+        """
+        Lancia il test e ne notifica la fine oppure il lancio di un'eccezione.
+        In quest'ultimo caso salva l'eccezione per poter essere letta dal Controller.
+        """
         try:
             model.startTest(view.optionsTab.serverHostnameField.text(), view.optionsTab.serverPortField.text(),
                             view.optionsTab.sourceIPComboBox.currentText(), view.optionsTab.localPortField.text())
