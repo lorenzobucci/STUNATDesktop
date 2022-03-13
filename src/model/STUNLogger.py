@@ -1,9 +1,13 @@
 import io
 import logging
 
-
+# Logger per la libreria pystun
 class STUNLogger:
+
     def __init__(self):
+        """
+        Inizializza uno stream per il salvataggio del log avanzato del test STUN
+        """
         self.stream = io.StringIO()
         log = logging.getLogger("pystun3")
         log.setLevel(logging.DEBUG)
