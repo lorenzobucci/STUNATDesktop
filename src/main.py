@@ -6,12 +6,13 @@ from controller.Controller import Controller
 from model.Model import Model
 from src.view.STUNATView import STUNATView
 
+app = QtWidgets.QApplication(sys.argv)
+
 # Inizializzazione modello, vista e relativo controller per dependency injection
 model = Model()
 mainWindow = STUNATView()
 controller = Controller(mainWindow, model)
 
 # Lancio finestra principale PyQt
-app = QtWidgets.QApplication(sys.argv)
 mainWindow.show()
 sys.exit(app.exec_())
