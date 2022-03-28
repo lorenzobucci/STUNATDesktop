@@ -3,6 +3,9 @@ from PyQt5.QtGui import QFont, QCursor, QMouseEvent
 from PyQt5.QtWidgets import QGroupBox, QSizePolicy, QGridLayout, QLabel
 
 
+# Componente dedicato alla visualizzazione testuale dei risultati del test STUN
+# È una groupbox di base da cui erediteranno due classi specializzate per la visualizzazione di risultati corretti o erronei
+# Codice in larga parte generato automaticamente da QtDesigner su cui è stata eseguita una fattorizzazione
 class STUNResultsGroupBox(QGroupBox):
     def __init__(self, parent):
         super().__init__(parent)
@@ -24,6 +27,8 @@ class STUNResultsGroupBox(QGroupBox):
         self.viewLogLabel.setText(_translate("STUNATView", "Visualizza log avanzato"))
 
 
+# Groupbox per la visualizzazione di risultati corretti
+# Codice in larga parte generato automaticamente da QtDesigner su cui è stata eseguita una fattorizzazione
 class STUNCorrectResultsGroupBox(STUNResultsGroupBox):
     def __init__(self, parent):
         super().__init__(parent)
@@ -65,6 +70,8 @@ class STUNCorrectResultsGroupBox(STUNResultsGroupBox):
         self.extPortLabel.setText(_translate("STUNATView", "Porta esterna:"))
 
 
+# Groupbox per la visualizzazione di risultati erronei
+# Codice in larga parte generato automaticamente da QtDesigner su cui è stata eseguita una fattorizzazione
 class STUNErrorResultsGroupBox(STUNResultsGroupBox):
     def __init__(self, parent):
         super().__init__(parent)
@@ -100,21 +107,24 @@ class STUNErrorResultsGroupBox(STUNResultsGroupBox):
         self.errorDescriptionLabel.setText(_translate("STUNATView", "Descrizione:"))
 
 
+# Specializzazione di una QLabel che emula un link cliccabile
 class QClickableLabel(QLabel):
     clicked = pyqtSignal()
 
     def __init__(self, p):
         super().__init__(parent=p)
 
-        self.setStyleSheet("color: #0078d7;")
-        self.setCursor(QCursor(Qt.PointingHandCursor))
+        self.setStyleSheet("color: #0078d7;")  # Colore caratterizzante i link
+        self.setCursor(QCursor(Qt.PointingHandCursor))  # Cursore caratterizzante i link
 
+    # Eliminazione sottolineatura se il cursore esce dall'etichetta
     def leaveEvent(self, a0: QEvent) -> None:
         super(QClickableLabel, self).leaveEvent(a0)
         f = QFont()
         f.setUnderline(False)
         self.setFont(f)
 
+    # Aggiunta sottolineatura se il cursore entra nell'etichetta
     def enterEvent(self, a0: QEvent) -> None:
         super(QClickableLabel, self).enterEvent(a0)
         f = QFont()

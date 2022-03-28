@@ -6,6 +6,8 @@ from PyQt5.QtWidgets import QWidget, QGridLayout, QLabel, QSizePolicy, QGroupBox
 from view.components.STUNResultsGroupBox import STUNResultsGroupBox
 
 
+# Tab principale (Home)
+# Codice in larga parte generato automaticamente da QtDesigner su cui è stata eseguita una fattorizzazione
 class HomeTab(QWidget):
     def __init__(self):
         super().__init__()
@@ -13,6 +15,7 @@ class HomeTab(QWidget):
         self.homeTabGridLayout = QGridLayout(self)
         self.homeTabGridLayout.setObjectName("homeTabGridLayout")
 
+        # Titolo
         self.homeTitleLabel = QLabel(self)
         self.homeTitleLabel.setSizePolicy(QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed))
         self.homeTitleLabel.setText("STUNAT")
@@ -24,6 +27,7 @@ class HomeTab(QWidget):
         self.homeTitleLabel.setObjectName("homeTitleLabel")
         self.homeTabGridLayout.addWidget(self.homeTitleLabel, 0, 0, 1, 2)
 
+        # Istruzioni iniziali per l'uso dell'applicazione
         self.homeDescriptionLabel = QLabel(self)
         self.homeDescriptionLabel.setSizePolicy(QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed))
         self.homeDescriptionLabel.setStyleSheet("font-size:10pt;")
@@ -31,9 +35,11 @@ class HomeTab(QWidget):
         self.homeDescriptionLabel.setObjectName("homeDescriptionLabel")
         self.homeTabGridLayout.addWidget(self.homeDescriptionLabel, 1, 0, 1, 2)
 
+        # Groupbox vuota per visualizzare i risultati
         self.resultsGroupBox = STUNResultsGroupBox(self)
         self.homeTabGridLayout.addWidget(self.resultsGroupBox, 2, 1, 1, 1)
 
+        # Immagine grafica che rappresenta il tipo di NAT risultante
         self.natRepresentation = QLabel(self)
         self.natRepresentation.setSizePolicy(QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred))
         self.natRepresentation.setFixedWidth(225)
@@ -41,33 +47,54 @@ class HomeTab(QWidget):
         self.natRepresentation.setObjectName("natRepresentation")
         self.homeTabGridLayout.addWidget(self.natRepresentation, 2, 0, 1, 1)
 
+        # Bottone Inizia test
         self.startButton = QPushButton(self)
         self.startButton.setSizePolicy(QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed))
         self.startButton.setObjectName("startButton")
         self.homeTabGridLayout.addWidget(self.startButton, 3, 0, 1, 2, Qt.AlignHCenter)
 
     def replaceResultsGroupBox(self, resultsGroupBox: STUNResultsGroupBox):
+        """
+        Sostituisce la resultsGroupBox attualmente visualizzata. Permette in questo modo il cambio da
+        STUNCorrectResultsGroupBox a STUNErrorResultsGroupBox e viceversa.
+        :param resultsGroupBox: Nuova STUNResultsGroupBox
+        """
         self.homeTabGridLayout.replaceWidget(self.resultsGroupBox, resultsGroupBox)
-        self.homeTabGridLayout.removeWidget(self.resultsGroupBox)
+        self.homeTabGridLayout.removeWidget(self.resultsGroupBox)  # Non viene rimosso automaticamente
         self.resultsGroupBox = resultsGroupBox
-        self.resultsGroupBox.retranslateUi()
+        self.resultsGroupBox.retranslateUi()  # Necessaria per visualizzare il testo della nuova groupbox
 
     def setNatRepresentation(self, imageName):
+        """
+        Imposta l'immagine per la rappresentazione grafica del risultato del test STUN. L'immagine deve essere contenuta
+        in "res/natRepresentations/".
+        :param imageName: Nome del file
+        """
         imagePath = "res/natRepresentations/" + imageName
         pixmap = QPixmap(imagePath)
-        movie = QMovie(imagePath)
+        movie = QMovie(imagePath)  # È necessario un QMovie per visualizzare le animazioni gif
         movieSize = pixmap.size()
         movie.setScaledSize(movieSize.scaled(self.natRepresentation.width(), movieSize.height(), Qt.KeepAspectRatio))
         self.natRepresentation.setMovie(movie)
         movie.start()
 
     def hideResultsGroupBox(self):
+        """
+        Nasconde la resultsGroupBox
+        """
         self.resultsGroupBox.hide()
+
+        # Modifica natRepresentation in modo da occupare l'intera larghezza della finestra
         self.homeTabGridLayout.removeWidget(self.natRepresentation)
         self.homeTabGridLayout.addWidget(self.natRepresentation, 2, 0, 1, 2, Qt.AlignHCenter)
 
     def showResultsGroupBox(self):
+        """
+        Rende visualizzabile la resultsGroupBox
+        """
         self.resultsGroupBox.show()
+
+        # Modifica natRepresentation in modo da occupare la metà della larghezza della finestra
         self.homeTabGridLayout.removeWidget(self.natRepresentation)
         self.homeTabGridLayout.addWidget(self.natRepresentation, 2, 0, 1, 1)
 
@@ -77,17 +104,22 @@ class HomeTab(QWidget):
                                                      "Scopri il tipo di NAT presente sulla tua rete.\n"
                                                      "Clicca su Inizia test e attendi il risultato."))
         self.startButton.setText(_translate("STUNATView", "Inizia test"))
-        self.resultsGroupBox.retranslateUi()
+        self.resultsGroupBox.retranslateUi()  # Propagazione della traduzione nella groupbox dei risultati
 
 
+# Tab opzioni avanzate
+# Codice in larga parte generato automaticamente da QtDesigner su cui è stata eseguita una fattorizzazione
 class OptionsTab(QWidget):
     def __init__(self):
         super().__init__()
 
+        # RegExp per validare una porta TCP/UDP
         portRegExp = QRegExp("([1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-3][0-9]|6553[0-5])")
 
         self.optionsTabVLayout = QVBoxLayout(self)
         self.optionsTabVLayout.setObjectName("optionsTabVLayout")
+
+        # SEZIONE SERVER STUN
 
         self.stunServerGroupBox = QGroupBox(self)
         self.stunServerGroupBox.setChecked(False)
@@ -116,6 +148,8 @@ class OptionsTab(QWidget):
         self.serverPortField.setObjectName("serverPortField")
         self.stunServerGroupBoxHLayout.addWidget(self.serverPortField)
 
+        # SEZIONE PARAMETRI DI RETE
+
         self.netParamsGroupBox = QGroupBox(self)
         self.netParamsGroupBox.setObjectName("netParamsGroupBox")
         self.optionsTabVLayout.addWidget(self.netParamsGroupBox)
@@ -142,6 +176,8 @@ class OptionsTab(QWidget):
         self.localPortField.setMaxLength(5)
         self.localPortField.setObjectName("localPortField")
         self.netParamsGroupBoxHLayout.addWidget(self.localPortField)
+
+        # LINGUA
 
         self.languageHLayout = QHBoxLayout()
         self.languageHLayout.setObjectName(u"languageHLayout")
