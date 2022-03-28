@@ -5,6 +5,7 @@ from PyQt5.QtCore import QObject, pyqtSignal
 from model.Model import Model
 from view.LogDialog import LogDialog
 from view.STUNATView import STUNATView
+from view.components.STUNResultsGroupBox import *
 
 
 class Controller:
@@ -58,12 +59,18 @@ class Controller:
         self.view.homeTab.resultsGroupBox.setEnabled(True)
         self.view.homeTab.setNatRepresentation(self.model.testResults["natRepresentationImage"])
         if self.model.testResults["isAnError"]:  # In caso di test fallito
-            self.view.homeTab.resultsGroupBox.displayErrorResult()
+            # Creazione di una groupbox per la visualizzazione dei risultati corretti
+            self.view.homeTab.resultsGroupBox.viewLogLabel.clicked.disconnect()
+            self.view.homeTab.replaceResultsGroupBox(STUNErrorResultsGroupBox(self.view.homeTab))
+            self.view.homeTab.resultsGroupBox.viewLogLabel.clicked.connect(self._viewLogHandler)
             self.view.homeTab.resultsGroupBox.errorResultLabel.setText(self.model.testResults["errorName"])
             self.view.homeTab.resultsGroupBox.errorDescriptionResultLabel.setText(
                 self.model.testResults["errorDescription"])
         else:  # In caso di test riuscito
-            self.view.homeTab.resultsGroupBox.displayCorrectResult()
+            # Creazione di una groupbox per la visualizzazione dei risultati corretti
+            self.view.homeTab.resultsGroupBox.viewLogLabel.clicked.disconnect()
+            self.view.homeTab.replaceResultsGroupBox(STUNCorrectResultsGroupBox(self.view.homeTab))
+            self.view.homeTab.resultsGroupBox.viewLogLabel.clicked.connect(self._viewLogHandler)
             self.view.homeTab.resultsGroupBox.natTypeResultLabel.setText(self.model.testResults["natType"])
             self.view.homeTab.resultsGroupBox.extIPResultLabel.setText(self.model.testResults["extIP"])
             self.view.homeTab.resultsGroupBox.extPortResultLabel.setText(str(self.model.testResults["extPort"]))

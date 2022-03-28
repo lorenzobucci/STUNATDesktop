@@ -46,6 +46,12 @@ class HomeTab(QWidget):
         self.startButton.setObjectName("startButton")
         self.homeTabGridLayout.addWidget(self.startButton, 3, 0, 1, 2, Qt.AlignHCenter)
 
+    def replaceResultsGroupBox(self, resultsGroupBox: STUNResultsGroupBox):
+        self.homeTabGridLayout.replaceWidget(self.resultsGroupBox, resultsGroupBox)
+        self.homeTabGridLayout.removeWidget(self.resultsGroupBox)
+        self.resultsGroupBox = resultsGroupBox
+        self.resultsGroupBox.retranslateUi()
+
     def setNatRepresentation(self, imageName):
         imagePath = "res/natRepresentations/" + imageName
         pixmap = QPixmap(imagePath)
