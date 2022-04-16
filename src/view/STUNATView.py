@@ -82,7 +82,7 @@ class STUNATView(QMainWindow):
         """
         data = self.optionsTab.languageComboBox.itemData(index)
         if data:
-            self.translator.load(data, "view")
+            self.translator.load(data, _resourcePath("res"))
             QApplication.instance().installTranslator(self.translator)
         else:
             QApplication.instance().removeTranslator(self.translator)
