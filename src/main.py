@@ -4,7 +4,7 @@ from PyQt5 import QtWidgets
 
 from controller.Controller import Controller
 from model.Model import Model
-from src.view.STUNATView import STUNATView
+from view.STUNATView import STUNATView
 
 app = QtWidgets.QApplication(sys.argv)
 
