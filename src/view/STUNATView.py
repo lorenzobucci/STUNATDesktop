@@ -1,5 +1,8 @@
+import sys
+from pathlib import Path
+
 from PyQt5.QtCore import Qt, QSize, QRect, QTranslator, QCoreApplication, QLocale, QLibraryInfo
-from PyQt5.QtGui import QCursor
+from PyQt5.QtGui import QCursor, QIcon
 from PyQt5.QtWidgets import QMessageBox, QMainWindow, QWidget, QTabWidget, QApplication
 
 from view.components.TabWidgets import HomeTab, OptionsTab
@@ -15,6 +18,8 @@ class STUNATView(QMainWindow):
         self.setWindowTitle("STUNAT Desktop")
 
         self.setFixedSize(QSize(480, 300))
+
+        self.setWindowIcon(QIcon("res/icon.ico"))
 
         self.centralWidget = QWidget(self)
         self.centralWidget.setObjectName("centralWidget")
@@ -88,3 +93,12 @@ class STUNATView(QMainWindow):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.optionsTab), _translate("STUNATView", "Opzioni"))
         self.homeTab.retranslateUi()  # Propagazione della traduzione nella tab Home
         self.optionsTab.retranslateUi()  # Propagazione della traduzione nella tab Opzioni
+
+# Funzione per la gestione delle path con pyinstaller
+def _resourcePath(relativePath):
+    try:
+        basePath = Path(sys._MEIPASS)
+    except Exception:
+        basePath = Path(".").absolute()
+
+    return str(Path.joinpath(basePath, relativePath).absolute())
