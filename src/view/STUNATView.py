@@ -19,6 +19,8 @@ class STUNATView(QMainWindow):
 
         self.setWindowIcon(QIcon(_path("res/icon.ico")))
 
+        self.setStyleSheet("font-size:10pt;")
+
         self.centralWidget = QWidget(self)
         self.centralWidget.setObjectName("centralWidget")
 

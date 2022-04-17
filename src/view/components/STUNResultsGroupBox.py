@@ -53,6 +53,7 @@ class STUNCorrectResultsGroupBox(STUNResultsGroupBox):
         self.natTypeResultLabel = QLabel(self)
         self.natTypeResultLabel.setObjectName("natTypeResultLabel")
         self.natTypeResultLabel.setText(natType)
+        self.natTypeResultLabel.setWordWrap(True)
         self.resultsGroupBoxGridLayout.addWidget(self.natTypeResultLabel, 0, 1, 1, 1)
 
         self.extIPResultLabel = QLabel(self)
