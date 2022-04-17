@@ -12,7 +12,7 @@ class STUNResultsGroupBox(QGroupBox):
 
         self.setObjectName("resultsGroupBox")
         self.setSizePolicy(QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Minimum))
-        self.setFixedWidth(207)
+        self.setFixedWidth(216)
 
         self.resultsGroupBoxGridLayout = QGridLayout(self)
         self.resultsGroupBoxGridLayout.setObjectName("resultsGroupBoxGridLayout")

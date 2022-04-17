@@ -1,5 +1,5 @@
 from PyQt5.QtCore import Qt, QCoreApplication, QRegExp
-from PyQt5.QtGui import QFont, QPixmap, QMovie, QRegExpValidator
+from PyQt5.QtGui import QPixmap, QMovie, QRegExpValidator
 from PyQt5.QtWidgets import QWidget, QGridLayout, QLabel, QSizePolicy, QGroupBox, QPushButton, QVBoxLayout, QHBoxLayout, \
     QLineEdit, QComboBox, QSpacerItem
 
@@ -19,12 +19,14 @@ class HomeTab(QWidget):
         # Titolo
         self.homeTitleLabel = QLabel(self)
         self.homeTitleLabel.setSizePolicy(QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed))
-        self.homeTitleLabel.setText("STUNAT")
-        self.homeTitleLabel.setStyleSheet("font-size:22pt; font-weight:600;")
-        font = QFont()
-        font.setFamily(u"Courier New")
-        self.homeTitleLabel.setFont(font)
         self.homeTitleLabel.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
+        imagePath = _path("res/title.png")
+        pixmap = QPixmap(imagePath)
+        movie = QMovie(imagePath)  # È necessario un QMovie per visualizzare nitidamente l'immagine
+        movieSize = pixmap.size()
+        movie.setScaledSize(movieSize.scaled(self.homeTitleLabel.width(), movieSize.height(), Qt.KeepAspectRatio))
+        self.homeTitleLabel.setMovie(movie)
+        movie.start()
         self.homeTitleLabel.setObjectName("homeTitleLabel")
         self.homeTabGridLayout.addWidget(self.homeTitleLabel, 0, 0, 1, 2)
 
@@ -42,7 +44,7 @@ class HomeTab(QWidget):
         # Immagine grafica che rappresenta il tipo di NAT risultante
         self.natRepresentation = QLabel(self)
         self.natRepresentation.setSizePolicy(QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred))
-        self.natRepresentation.setFixedWidth(225)
+        self.natRepresentation.setFixedWidth(216)
         self.natRepresentation.setFixedHeight(100)
         self.natRepresentation.setObjectName("natRepresentation")
         self.homeTabGridLayout.addWidget(self.natRepresentation, 2, 0, 1, 1)
