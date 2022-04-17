@@ -1,6 +1,6 @@
 import threading
 
-from PyQt5.QtCore import QObject, pyqtSignal
+from PyQt5.QtCore import QObject
 
 from model.Model import Model
 from view.LogDialog import LogDialog
@@ -43,13 +43,14 @@ class Controller:
 
         worker = STUNWorker()
         worker.finished.connect(self._processWorkerResults)  # Si processano i risultati appena il test si è concluso
-        worker.stunException.connect(lambda: {  # In caso di eccezione durante il test si ripristina lo stato originale della view
-            self.view.homeTab.hideResultsGroupBox(),
-            self.view.homeTab.setNatRepresentation("UnknownNAT.png"),
-            self.view.homeTab.startButton.setEnabled(True),
-            self.view.unsetCursor(),
-            self.view.showErrorMessage(str(worker.lastException))  # Si mostra sulla view il messaggio contenuto nell'eccezione
-        })
+        worker.stunException.connect(
+            lambda: {  # In caso di eccezione durante il test si ripristina lo stato originale della view
+                self.view.homeTab.hideResultsGroupBox(),
+                self.view.homeTab.setNatRepresentation("UnknownNAT.png"),
+                self.view.homeTab.startButton.setEnabled(True),
+                self.view.unsetCursor(),
+                self.view.showErrorMessage(str(worker.lastException)) # Si mostra sulla view il messaggio contenuto nell'eccezione
+            })
         threading.Thread(target=worker.startTest, args=(self.view, self.model)).start()
 
     def _processWorkerResults(self):
@@ -58,22 +59,20 @@ class Controller:
         """
         self.view.homeTab.resultsGroupBox.setEnabled(True)
         self.view.homeTab.setNatRepresentation(self.model.testResults["natRepresentationImage"])
+        self.view.homeTab.resultsGroupBox.viewLogLabel.clicked.disconnect()
         if self.model.testResults["isAnError"]:  # In caso di test fallito
             # Creazione di una groupbox per la visualizzazione dei risultati corretti
-            self.view.homeTab.resultsGroupBox.viewLogLabel.clicked.disconnect()
-            self.view.homeTab.replaceResultsGroupBox(STUNErrorResultsGroupBox(self.view.homeTab))
-            self.view.homeTab.resultsGroupBox.viewLogLabel.clicked.connect(self._viewLogHandler)
-            self.view.homeTab.resultsGroupBox.errorResultLabel.setText(self.model.testResults["errorName"])
-            self.view.homeTab.resultsGroupBox.errorDescriptionResultLabel.setText(
-                self.model.testResults["errorDescription"])
+            self.view.homeTab.replaceResultsGroupBox(
+                STUNErrorResultsGroupBox(self.view.homeTab,
+                                         self.model.testResults["errorName"],
+                                         self.model.testResults["errorDescription"]))
         else:  # In caso di test riuscito
             # Creazione di una groupbox per la visualizzazione dei risultati corretti
-            self.view.homeTab.resultsGroupBox.viewLogLabel.clicked.disconnect()
-            self.view.homeTab.replaceResultsGroupBox(STUNCorrectResultsGroupBox(self.view.homeTab))
-            self.view.homeTab.resultsGroupBox.viewLogLabel.clicked.connect(self._viewLogHandler)
-            self.view.homeTab.resultsGroupBox.natTypeResultLabel.setText(self.model.testResults["natType"])
-            self.view.homeTab.resultsGroupBox.extIPResultLabel.setText(self.model.testResults["extIP"])
-            self.view.homeTab.resultsGroupBox.extPortResultLabel.setText(str(self.model.testResults["extPort"]))
+            self.view.homeTab.replaceResultsGroupBox(STUNCorrectResultsGroupBox(self.view.homeTab,
+                                                                                self.model.testResults["natType"],
+                                                                                self.model.testResults["extIP"],
+                                                                                str(self.model.testResults["extPort"])))
+        self.view.homeTab.resultsGroupBox.viewLogLabel.clicked.connect(self._viewLogHandler)
         self.view.homeTab.showResultsGroupBox()
         self.view.homeTab.startButton.setEnabled(True)
         self.view.unsetCursor()

@@ -30,7 +30,7 @@ class STUNResultsGroupBox(QGroupBox):
 # Groupbox per la visualizzazione di risultati corretti
 # Codice in larga parte generato automaticamente da QtDesigner su cui è stata eseguita una fattorizzazione
 class STUNCorrectResultsGroupBox(STUNResultsGroupBox):
-    def __init__(self, parent):
+    def __init__(self, parent, natType, extIP, extPort):
         super().__init__(parent)
 
         # ETICHETTE DESCRITTIVE
@@ -52,14 +52,17 @@ class STUNCorrectResultsGroupBox(STUNResultsGroupBox):
 
         self.natTypeResultLabel = QLabel(self)
         self.natTypeResultLabel.setObjectName("natTypeResultLabel")
+        self.natTypeResultLabel.setText(natType)
         self.resultsGroupBoxGridLayout.addWidget(self.natTypeResultLabel, 0, 1, 1, 1)
 
         self.extIPResultLabel = QLabel(self)
         self.extIPResultLabel.setObjectName("extIPResultLabel")
+        self.extIPResultLabel.setText(extIP)
         self.resultsGroupBoxGridLayout.addWidget(self.extIPResultLabel, 1, 1, 1, 1)
 
         self.extPortResultLabel = QLabel(self)
         self.extPortResultLabel.setObjectName("extPortResultLabel")
+        self.extPortResultLabel.setText(extPort)
         self.resultsGroupBoxGridLayout.addWidget(self.extPortResultLabel, 2, 1, 1, 1)
 
     def retranslateUi(self):
@@ -73,7 +76,7 @@ class STUNCorrectResultsGroupBox(STUNResultsGroupBox):
 # Groupbox per la visualizzazione di risultati erronei
 # Codice in larga parte generato automaticamente da QtDesigner su cui è stata eseguita una fattorizzazione
 class STUNErrorResultsGroupBox(STUNResultsGroupBox):
-    def __init__(self, parent):
+    def __init__(self, parent, error, errorDescription):
         super().__init__(parent)
 
         # ETICHETTE DESCRITTIVE
@@ -93,11 +96,13 @@ class STUNErrorResultsGroupBox(STUNResultsGroupBox):
         self.errorResultLabel = QLabel(self)
         self.errorResultLabel.setObjectName("errorResultLabel")
         self.errorResultLabel.setWordWrap(True)
+        self.errorResultLabel.setText(error)
         self.resultsGroupBoxGridLayout.addWidget(self.errorResultLabel, 0, 1, 1, 1)
 
         self.errorDescriptionResultLabel = QLabel(self)
         self.errorDescriptionResultLabel.setObjectName("errorDescriptionResultLabel")
         self.errorDescriptionResultLabel.setWordWrap(True)
+        self.errorDescriptionResultLabel.setText(errorDescription)
         self.resultsGroupBoxGridLayout.addWidget(self.errorDescriptionResultLabel, 1, 1, 1, 1)
 
     def retranslateUi(self):
