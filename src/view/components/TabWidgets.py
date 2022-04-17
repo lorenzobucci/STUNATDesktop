@@ -1,11 +1,9 @@
-import sys
-from pathlib import Path
-
 from PyQt5.QtCore import Qt, QCoreApplication, QRegExp
 from PyQt5.QtGui import QFont, QPixmap, QMovie, QRegExpValidator
 from PyQt5.QtWidgets import QWidget, QGridLayout, QLabel, QSizePolicy, QGroupBox, QPushButton, QVBoxLayout, QHBoxLayout, \
     QLineEdit, QComboBox, QSpacerItem
 
+from utils import _path
 from view.components.STUNResultsGroupBox import STUNResultsGroupBox
 
 
@@ -73,7 +71,7 @@ class HomeTab(QWidget):
         in "res/natRepresentations/".
         :param imageName: Nome del file
         """
-        imagePath = _resourcePath("res/natRepresentations/" + imageName)
+        imagePath = _path("res/natRepresentations/" + imageName)
         pixmap = QPixmap(imagePath)
         movie = QMovie(imagePath)  # È necessario un QMovie per visualizzare le animazioni gif
         movieSize = pixmap.size()
@@ -214,13 +212,3 @@ class OptionsTab(QWidget):
         self.sourceIPLabel.setText(_translate("STUNATView", "Indirizzo IP sorgente"))
         self.localPortLabel.setText(_translate("STUNATView", "Porta locale"))
         self.languageLabel.setText(_translate("STUNATView", "Lingua"))
-
-
-# Funzione per la gestione delle path con pyinstaller
-def _resourcePath(relativePath):
-    try:
-        basePath = Path(sys._MEIPASS)
-    except Exception:
-        basePath = Path(".").absolute()
-
-    return str(Path.joinpath(basePath, relativePath).absolute())

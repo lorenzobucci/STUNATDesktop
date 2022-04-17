@@ -1,10 +1,8 @@
-import sys
-from pathlib import Path
-
 from PyQt5.QtCore import Qt, QSize, QRect, QTranslator, QCoreApplication, QLocale, QLibraryInfo
 from PyQt5.QtGui import QCursor, QIcon
 from PyQt5.QtWidgets import QMessageBox, QMainWindow, QWidget, QTabWidget, QApplication
 
+from utils import _path
 from view.components.TabWidgets import HomeTab, OptionsTab
 
 
@@ -19,7 +17,7 @@ class STUNATView(QMainWindow):
 
         self.setFixedSize(QSize(480, 300))
 
-        self.setWindowIcon(QIcon(_resourcePath("res/icon.ico")))
+        self.setWindowIcon(QIcon(_path("res/icon.ico")))
 
         self.centralWidget = QWidget(self)
         self.centralWidget.setObjectName("centralWidget")
@@ -82,7 +80,7 @@ class STUNATView(QMainWindow):
         """
         data = self.optionsTab.languageComboBox.itemData(index)
         if data:
-            self.translator.load(data, _resourcePath("res"))
+            self.translator.load(data, _path("res"))
             QApplication.instance().installTranslator(self.translator)
         else:
             QApplication.instance().removeTranslator(self.translator)
@@ -93,13 +91,3 @@ class STUNATView(QMainWindow):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.optionsTab), _translate("STUNATView", "Opzioni"))
         self.homeTab.retranslateUi()  # Propagazione della traduzione nella tab Home
         self.optionsTab.retranslateUi()  # Propagazione della traduzione nella tab Opzioni
-
-
-# Funzione per la gestione delle path con pyinstaller
-def _resourcePath(relativePath):
-    try:
-        basePath = Path(sys._MEIPASS)
-    except Exception:
-        basePath = Path(".").absolute()
-
-    return str(Path.joinpath(basePath, relativePath).absolute())
